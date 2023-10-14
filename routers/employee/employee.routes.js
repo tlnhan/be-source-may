@@ -75,15 +75,15 @@ router.put("/", async (req, res, next) => {
         await mssql.query(
           `
                 UPDATE NhanVien
-                SET MaNV = '${MaNV}', 
-                BoPhanID = '${BoPhanID}', 
+                SET BoPhanID = '${BoPhanID}', 
                 ChucVuID = '${ChucVuID}', 
                 HoTen = '${HoTen}', 
                 NgaySinh = '${NgaySinh}', 
                 EMail = '${Email}', 
                 SoDT = '${SoDT}', 
                 NgayVaoLam = '${NgayVaoLam}', 
-                NgayCapNhat = '${NgayCapNhat}', 
+                NgayCapNhat = '${NgayCapNhat}' 
+                WHERE MaNV = '${MaNV}'
             `,
         );
         res.status(200).json({ message: "The employee has been updated." });

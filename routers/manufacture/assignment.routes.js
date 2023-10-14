@@ -64,7 +64,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.put("/:NhanVien_Id", async (req, res, next) => {
+router.put("/", async (req, res, next) => {
   try {
     const {
       NhanVien_Id,
@@ -102,7 +102,7 @@ router.put("/:NhanVien_Id", async (req, res, next) => {
   }
 });
 
-router.delete("/:NhanVien_Id", async (req, res, next) => {
+router.delete("/", async (req, res, next) => {
     try {
         const NhanVien_Id = req.body;
         await mssql.query(`DELETE FROM PhanCongSanXuat WHERE NhanVien_Id = ${NhanVien_Id}`);

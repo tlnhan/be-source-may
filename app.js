@@ -40,24 +40,24 @@ app.use("/api/employee", employeeRouter);
 app.use("/api/role", roleRouter);
 app.use("/api/order", orderRouter);
 //Manufacture
-app.use("/api/assignment", assignmentRouter);
-app.use("/api/move", moveRouter);
-app.use("/api/salary", salaryRouter);
-app.use("/api/synchronized", synchronizedRouter);
-app.use("/api", updateRouter);
+app.use("/api/manufacture/assignment", assignmentRouter);
+app.use("/api/manufacture/move", moveRouter);
+app.use("/api/manufacture/salary", salaryRouter);
+app.use("/api/manufacture/synchronized", synchronizedRouter);
+app.use("/api/manufacture/update", updateRouter);
 //Product
-app.use("/api", colorRouter);
-app.use("/api", detailRouter);
-app.use("/api", kindRouter);
-app.use("/api", procductRouter);
-app.use("/api", sizeRouter);
-app.use("/api", typeRouter);
+app.use("/api/product/color", colorRouter);
+app.use("/api/product/detail", detailRouter);
+app.use("/api/product/kind", kindRouter);
+app.use("/api/product/product", procductRouter);
+app.use("/api/product/size", sizeRouter);
+app.use("/api/product/type", typeRouter);
 //Report
-app.use("/api", orderReportRouter);
-app.use("/api", outputReportRouter);
-app.use("/api", productReportRouter);
-app.use("/api", totalOutputReportRouter);
-app.use("/api", totalProductReportRouter);
+app.use("/api/report/order", orderReportRouter);
+app.use("/api/report/output", outputReportRouter);
+app.use("/api/report/product", productReportRouter);
+app.use("/api/report/totalOutput", totalOutputReportRouter);
+app.use("/api/report/totalProduct", totalProductReportRouter);
 
 app.listen(dotenv.PORT, () => {
   console.log("Port is listening.");

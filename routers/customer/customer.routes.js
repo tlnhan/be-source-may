@@ -65,7 +65,7 @@ router.post("/", async (req, res, next) => {
       }
 });
 
-router.put("/:MaKhachHang", async (req, res, next) => {
+router.put("/", async (req, res, next) => {
   try {
     const {
       Ma_Auto,
@@ -105,7 +105,7 @@ router.put("/:MaKhachHang", async (req, res, next) => {
   }
 });
 
-router.delete("/:MaKhachHang", async (req, res, next) => {
+router.delete("/", async (req, res, next) => {
     try {
         const MaKhachHang = req.body;
         await mssql.query(`DELETE FROM DM_KhachHang WHERE MaKhachHang = ${MaKhachHang}`);
