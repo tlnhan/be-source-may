@@ -42,7 +42,7 @@ router.post("/", async (req, res, next) => {
             [NguoiDaiDien],
             [NguoiLH],
             [ThongTinLH],
-            [TamNgung],
+            [TamNgung]
           ) VALUES (
             '${Ma_Auto}',
             '${MaKhachHang}',
@@ -55,12 +55,13 @@ router.post("/", async (req, res, next) => {
             N'${NguoiDaiDien}',
             N'${NguoiLH}',
             N'${ThongTinLH}',
-            '${TamNgung}',
+            '${TamNgung}'
           )
             `,
         );
         res.status(200).json({ message: "The customer has been added successfully ." });
       } catch (error) {
+        console.log(error);
         res.status(500).json({ error: "Error while adding customer." });
       }
 });
