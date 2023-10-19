@@ -28,6 +28,8 @@ const outputReportRouter = require("./routers/report/output.routes");
 const productReportRouter = require("./routers/report/product.routes");
 const totalOutputReportRouter = require("./routers/report/total/output.routes");
 const totalProductReportRouter = require("./routers/report/total/product.routes");
+//List
+const listSizeRouter = require("./routers/list/list_size.routes");
 
 app.use(bodyParser.urlencoded({ extends: false }));
 app.use(bodyParser.json());
@@ -58,6 +60,8 @@ app.use("/api/report/output", outputReportRouter);
 app.use("/api/report/product", productReportRouter);
 app.use("/api/report/totalOutput", totalOutputReportRouter);
 app.use("/api/report/totalProduct", totalProductReportRouter);
+//List
+app.use("/api/list/size", listSizeRouter);
 
 app.listen(dotenv.PORT, () => {
   console.log("Port is listening.");
