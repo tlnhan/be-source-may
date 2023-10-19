@@ -24,7 +24,7 @@ router.post("/", async (req, res, next) => {
       if (result.recordset.length > 0) {
         const { TaiKhoanID, VaiTro } = result.recordset[0];
         const token = jwt.sign(
-          { username, password, VaiTro, TaiKhoanID },
+          { username, password, VaiTro },
           dotenv.SECRET_KEY
         );
         res.status(200).json({ token, role: VaiTro });
