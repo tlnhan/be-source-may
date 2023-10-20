@@ -4,10 +4,8 @@ const mssql = require("mssql");
 
 router.get("/", async (req, res, next) => {
   try {
-    await mssql.query("SELECT * FROM SanPham_Size");
-    res
-      .status(200)
-      .json({ message: "The size-product has been gotten successfully." });
+    const result = await mssql.query("SELECT * FROM SanPham_Size");
+    res.status(200).json(result.recordset);
   } catch (error) {
     res.status(500).json({ error: "Error while getting size-product." });
   }
