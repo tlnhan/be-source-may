@@ -114,7 +114,7 @@ router.put("/", async (req, res, next) => {
 
 router.delete("/", async (req, res, next) => {
     try {
-        const NhanVien_ID = req.body;
+        const NhanVien_ID = req.body.NhanVien_ID;
         await mssql.query(`DELETE FROM BangLuongSanPham WHERE NhanVien_ID = '${NhanVien_ID}'`);
         res.status(200).json({ message: "The salary has been deleted." });
     } catch (error) {

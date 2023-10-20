@@ -67,7 +67,7 @@ router.put("/", async (req, res, next) => {
 
 router.delete("/", async (req, res, next) => {
   try {
-    const MauSP_Id = req.body;
+    const MauSP_Id = req.body.MauSP_Id;
     await mssql.query(
       `DELETE FROM SanPham_Mau WHERE MauSP_Id = '${MauSP_Id}'`
     );

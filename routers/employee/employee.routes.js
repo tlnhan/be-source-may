@@ -94,7 +94,7 @@ router.put("/", async (req, res, next) => {
 
 router.delete("/", async (req, res, next) => {
     try {
-        const MaNV = req.body;
+        const MaNV = req.body.MaNV;
         await mssql.query(`DELETE FROM NhanVien WHERE MaNV = '${MaNV}'`);
         res.status(200).json({ message: "The employee has been deleted." });
     } catch (error) {

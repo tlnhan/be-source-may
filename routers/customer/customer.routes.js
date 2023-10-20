@@ -108,7 +108,7 @@ router.put("/", async (req, res, next) => {
 
 router.delete("/", async (req, res, next) => {
     try {
-        const MaKhachHang = req.body;
+        const MaKhachHang = req.body.MaKhachHang;
         await mssql.query(`DELETE FROM DM_KhachHang WHERE MaKhachHang = '${MaKhachHang}'`);
         res.status(200).json({ message: "The customer has been deleted." });
     } catch (error) {
