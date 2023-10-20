@@ -118,7 +118,7 @@ router.put("/", async (req, res, next) => {
 router.delete("/", async (req, res, next) => {
   try {
     const MaSP = req.body;
-    await mssql.query(`DELETE FROM DM_SanPham WHERE MaSP = ${MaSP}`);
+    await mssql.query(`DELETE FROM DM_SanPham WHERE MaSP = '${MaSP}'`);
     res.status(200).json({ message: "The product has been deleted." });
   } catch (error) {
     res.status(500).json({ error: "Error while deleting product." });

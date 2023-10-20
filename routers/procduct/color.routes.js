@@ -69,7 +69,7 @@ router.delete("/", async (req, res, next) => {
   try {
     const MauSP_Id = req.body;
     await mssql.query(
-      `DELETE FROM SanPham_Mau WHERE MauSP_Id = ${MauSP_Id}`
+      `DELETE FROM SanPham_Mau WHERE MauSP_Id = '${MauSP_Id}'`
     );
     res.status(200).json({ message: "The color-product has been deleted." });
   } catch (error) {

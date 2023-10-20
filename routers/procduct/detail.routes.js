@@ -68,7 +68,7 @@ router.put("/", async (req, res, next) => {
 router.delete("/", async (req, res, next) => {
   try {
     const ChiTiet_ID = req.body;
-    await mssql.query(`DELETE FROM SanPham_ChiTiet WHERE MauSP_Id = ${ChiTiet_ID}`);
+    await mssql.query(`DELETE FROM SanPham_ChiTiet WHERE MauSP_Id = '${ChiTiet_ID}'`);
     res.status(200).json({ message: "The detail-product has been deleted." });
   } catch (error) {
     res.status(500).json({ error: "Error while deleting detail-product." });

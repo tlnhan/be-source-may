@@ -105,7 +105,7 @@ router.put("/", async (req, res, next) => {
 router.delete("/", async (req, res, next) => {
     try {
         const NhanVien_Id = req.body;
-        await mssql.query(`DELETE FROM PhanCongSanXuat WHERE NhanVien_Id = ${NhanVien_Id}`);
+        await mssql.query(`DELETE FROM PhanCongSanXuat WHERE NhanVien_Id = '${NhanVien_Id}'`);
         res.status(200).json({ message: "The assignment has been deleted." });
     } catch (error) {
         res.status(500).json({ error: 'Error while deleting assignment.' });

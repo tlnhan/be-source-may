@@ -96,7 +96,7 @@ router.put("/", async (req, res, next) => {
 router.delete("/", async (req, res, next) => {
   try {
     const PhanCong_Id = req.body;
-    await mssql.query(`DELETE FROM CapNhatSanLuong WHERE PhanCong_Id = ${PhanCong_Id}`);
+    await mssql.query(`DELETE FROM CapNhatSanLuong WHERE PhanCong_Id = '${PhanCong_Id}'`);
     res.status(200).json({ message: "The update-output has been deleted." });
 } catch (error) {
     res.status(500).json({ error: 'Error while deleting update-output.' });
