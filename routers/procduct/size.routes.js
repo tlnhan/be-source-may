@@ -16,7 +16,7 @@ router.post("/", async (req, res, next) => {
     const { Size_Id, GhiChu, NgayTao, NguoiTao, NgayCapNhat, NguoiCapNhat } =
       req.body;
 
-    await mssql.query(
+    const result = await mssql.query(
       `
                         INSERT INTO SanPham_Size (
                             [Size_Id],
@@ -35,9 +35,7 @@ router.post("/", async (req, res, next) => {
                         )
                           `
     );
-    res
-      .status(200)
-      .json({ message: "The size-product has been added successfully ." });
+    res.status(200).json(result.recordset);
   } catch (error) {
     res.status(500).json({ error: "Error while adding size-product." });
   }
@@ -48,7 +46,7 @@ router.put("/", async (req, res, next) => {
     const { Size_Id, GhiChu, NgayTao, NguoiTao, NgayCapNhat, NguoiCapNhat } =
       req.body;
 
-    await mssql.query(
+    const result = await mssql.query(
       `
                           UPDATE SanPham_Size
                           SET GhiChu = '${GhiChu}', 
@@ -59,7 +57,7 @@ router.put("/", async (req, res, next) => {
                           WHERE Size_Id = '${Size_Id}'
                       `
     );
-    res.status(200).json({ message: "The size-product has been updated." });
+    res.status(200).json(result.recordset);
   } catch (error) {
     res.status(500).json({ error: "Error while updating size-product." });
   }
@@ -67,9 +65,11 @@ router.put("/", async (req, res, next) => {
 
 router.delete("/", async (req, res, next) => {
   try {
-    const Size_Id = req.body.Size_Id;
+    const { Size_Id } = req.body;
     await mssql.query(`DELETE FROM SanPham_Size WHERE Size_Id = '${Size_Id}'`);
-    res.status(200).json({ message: "The size-product has been deleted." });
+    res.status(200).json({
+      message: `The size-product with Size_Id: "${Size_Id}" has been deleted.`,
+    });
   } catch (error) {
     res.status(500).json({ error: "Error while deleting size-product." });
   }

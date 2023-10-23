@@ -27,7 +27,7 @@ router.post("/", async (req, res, next) => {
       NguoiCapNhat,
     } = req.body;
 
-    await mssql.query(
+    const result = await mssql.query(
       `
             INSERT INTO PhanCongSanXuat (
                 [NhanVien_Id],
@@ -56,9 +56,7 @@ router.post("/", async (req, res, next) => {
             )
               `
     );
-    res
-      .status(200)
-      .json({ message: "The assignment has been added successfully ." });
+    res.status(200).json(result.recordset);
   } catch (error) {
     res.status(500).json({ error: "Error while adding assignment." });
   }
@@ -80,7 +78,7 @@ router.put("/", async (req, res, next) => {
       NguoiCapNhat,
     } = req.body;
 
-    await mssql.query(
+    const result = await mssql.query(
       `
                   UPDATE PhanCongSanXuat
                   SET DonHang_L = N'${DonHang_L}', 
@@ -96,20 +94,24 @@ router.put("/", async (req, res, next) => {
                   WHERE NhanVien_Id = '${NhanVien_Id}'
               `
     );
-    res.status(200).json({ message: "The assignment has been updated." });
+    res.status(200).json(result.recordset);
   } catch (error) {
     res.status(500).json({ error: "Error while updating assignment." });
   }
 });
 
 router.delete("/", async (req, res, next) => {
-    try {
-        const NhanVien_Id = req.body.NhanVien_Id;
-        await mssql.query(`DELETE FROM PhanCongSanXuat WHERE NhanVien_Id = '${NhanVien_Id}'`);
-        res.status(200).json({ message: "The assignment has been deleted." });
-    } catch (error) {
-        res.status(500).json({ error: 'Error while deleting assignment.' });
-    }
+  try {
+    const { NhanVien_Id } = req.body;
+    await mssql.query(
+      `DELETE FROM PhanCongSanXuat WHERE NhanVien_Id = '${NhanVien_Id}'`
+    );
+    res.status(200).json({
+      message: `The assignment with NhanVien_Id: "${NhanVien_Id}" has been deleted.`,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error while deleting assignment." });
+  }
 });
 
 module.exports = router;

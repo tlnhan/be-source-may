@@ -16,7 +16,7 @@ router.post("/", async (req, res, next) => {
     const { ChiTiet_ID, DonGia, NgayTao, NguoiTao, NgayCapNhat, NguoiCapNhat } =
       req.body;
 
-    await mssql.query(
+    const result = await mssql.query(
       `
                         INSERT INTO SanPham_ChiTiet (
                             [ChiTiet_ID],
@@ -35,9 +35,7 @@ router.post("/", async (req, res, next) => {
                         )
                           `
     );
-    res
-      .status(200)
-      .json({ message: "The detail-product has been added successfully ." });
+    res.status(200).json(result.recordset);
   } catch (error) {
     res.status(500).json({ error: "Error while adding detail-product." });
   }
@@ -48,7 +46,7 @@ router.put("/", async (req, res, next) => {
     const { ChiTiet_ID, DonGia, NgayTao, NguoiTao, NgayCapNhat, NguoiCapNhat } =
       req.body;
 
-    await mssql.query(
+    const result = await mssql.query(
       `
                           UPDATE SanPham_ChiTiet
                           SET DonGia = '${DonGia}', 
@@ -59,7 +57,7 @@ router.put("/", async (req, res, next) => {
                           WHERE ChiTiet_ID = '${ChiTiet_ID}'
                       `
     );
-    res.status(200).json({ message: "The detail-product has been updated." });
+    res.status(200).json(result.recordset);
   } catch (error) {
     res.status(500).json({ error: "Error while updating detail-product." });
   }
@@ -67,9 +65,13 @@ router.put("/", async (req, res, next) => {
 
 router.delete("/", async (req, res, next) => {
   try {
-    const ChiTiet_ID = req.body.ChiTiet_ID;
-    await mssql.query(`DELETE FROM SanPham_ChiTiet WHERE MauSP_Id = '${ChiTiet_ID}'`);
-    res.status(200).json({ message: "The detail-product has been deleted." });
+    const { ChiTiet_ID } = req.body;
+    await mssql.query(
+      `DELETE FROM SanPham_ChiTiet WHERE MauSP_Id = '${ChiTiet_ID}'`
+    );
+    res.status(200).json({
+      message: `The detail-product with MauSP_Id: "${ChiTiet_ID}" has been deleted.`,
+    });
   } catch (error) {
     res.status(500).json({ error: "Error while deleting detail-product." });
   }

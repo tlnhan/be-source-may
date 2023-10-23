@@ -25,8 +25,8 @@ router.post("/", async (req, res, next) => {
       NgayCapNhat,
     } = req.body;
 
-    await mssql.query(
-        `
+    const result = await mssql.query(
+      `
               INSERT INTO CapNhatSanLuong (
                 [PhanCong_Id],
                 [NgaySanLuong],
@@ -49,13 +49,11 @@ router.post("/", async (req, res, next) => {
                 '${NgayCapNhat}'
               )
                 `
-      );
-      res
-        .status(200)
-        .json({ message: "The update output has been added successfully ." });
-    } catch (error) {
-      res.status(500).json({ error: "Error while adding update-output." });
-    }
+    );
+    res.status(200).json(result.recordset);
+  } catch (error) {
+    res.status(500).json({ error: "Error while adding update-output." });
+  }
 });
 
 router.put("/", async (req, res, next) => {
@@ -72,7 +70,7 @@ router.put("/", async (req, res, next) => {
       NgayCapNhat,
     } = req.body;
 
-    await mssql.query(
+    const result = await mssql.query(
       `
                   UPDATE CapNhatSanLuong
                   SET NgaySanLuong = '${NgaySanLuong}', 
@@ -87,7 +85,7 @@ router.put("/", async (req, res, next) => {
 
               `
     );
-    res.status(200).json({ message: "The update-output has been updated." });
+    res.status(200).json(result.recordset);
   } catch (error) {
     res.status(500).json({ error: "Error while updating update-output." });
   }
@@ -95,12 +93,16 @@ router.put("/", async (req, res, next) => {
 
 router.delete("/", async (req, res, next) => {
   try {
-    const PhanCong_Id = req.body.PhanCong_Id;
-    await mssql.query(`DELETE FROM CapNhatSanLuong WHERE PhanCong_Id = '${PhanCong_Id}'`);
-    res.status(200).json({ message: "The update-output has been deleted." });
-} catch (error) {
-    res.status(500).json({ error: 'Error while deleting update-output.' });
-}
+    const { PhanCong_Id } = req.body;
+    await mssql.query(
+      `DELETE FROM CapNhatSanLuong WHERE PhanCong_Id = '${PhanCong_Id}'`
+    );
+    res.status(200).json({
+      message: `The update-output with PhanCong_Id: "${PhanCong_Id} has been deleted.`,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Error while deleting update-output." });
+  }
 });
 
 module.exports = router;

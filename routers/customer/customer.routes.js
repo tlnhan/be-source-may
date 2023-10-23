@@ -3,33 +3,33 @@ const router = express.Router();
 const mssql = require("mssql");
 
 router.get("/", async (req, res, next) => {
-    try {
-        const result = await mssql.query("SELECT * FROM DM_KhachHang");
-        res.status(200).json(result.recordset);
-    } catch (error) {
-        res.status(500).json({ error: "Error while getting customers." });
-    }
+  try {
+    const result = await mssql.query("SELECT * FROM DM_KhachHang");
+    res.status(200).json(result.recordset);
+  } catch (error) {
+    res.status(500).json({ error: "Error while getting customers." });
+  }
 });
 
 router.post("/", async (req, res, next) => {
-    try {
-        const {
-          Ma_Auto,
-          MaKhachHang,
-          TenKhachHang,
-          Tentat,
-          DiaChi,
-          SoDT,
-          Fax,
-          Masothue,
-          NguoiDaiDien,
-          NguoiLH,
-          ThongTinLH,
-          TamNgung,
-        } = req.body;
-    
-        await mssql.query(
-          `
+  try {
+    const {
+      Ma_Auto,
+      MaKhachHang,
+      TenKhachHang,
+      Tentat,
+      DiaChi,
+      SoDT,
+      Fax,
+      Masothue,
+      NguoiDaiDien,
+      NguoiLH,
+      ThongTinLH,
+      TamNgung,
+    } = req.body;
+
+    const result = await mssql.query(
+      `
           INSERT INTO DM_KhachHang (
             [Ma_Auto],
             [MaKhachHang],
@@ -57,13 +57,13 @@ router.post("/", async (req, res, next) => {
             N'${ThongTinLH}',
             '${TamNgung}'
           )
-            `,
-        );
-        res.status(200).json({ message: "The customer has been added successfully ." });
-      } catch (error) {
-        console.log(error);
-        res.status(500).json({ error: "Error while adding customer." });
-      }
+            `
+    );
+    res.status(200).json(result.recordset);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error while adding customer." });
+  }
 });
 
 router.put("/", async (req, res, next) => {
@@ -83,7 +83,7 @@ router.put("/", async (req, res, next) => {
       TamNgung,
     } = req.body;
 
-    await mssql.query(
+    const result = await mssql.query(
       `
             UPDATE DM_KhachHang
             SET Ma_Auto = '${Ma_Auto}', 
@@ -98,22 +98,24 @@ router.put("/", async (req, res, next) => {
             ThongTinLH = N'${ThongTinLH}', 
             TamNgung = '${TamNgung}'
             WHERE MaKhachHang = '${MaKhachHang}'
-        `,
+        `
     );
-    res.status(200).json({ message: "The customer has been updated." });
+    res.status(200).json(result.recordset);
   } catch (error) {
     res.status(500).json({ error: "Error while updating customer." });
   }
 });
 
 router.delete("/", async (req, res, next) => {
-    try {
-        const MaKhachHang = req.body.MaKhachHang;
-        await mssql.query(`DELETE FROM DM_KhachHang WHERE MaKhachHang = '${MaKhachHang}'`);
-        res.status(200).json({ message: "The customer has been deleted." });
-    } catch (error) {
-        res.status(500).json({ error: 'Error while deleting customer.' });
-    }
+  try {
+    const { MaKhachHang } = req.body;
+    await mssql.query(
+      `DELETE FROM DM_KhachHang WHERE MaKhachHang = '${MaKhachHang}'`
+    );
+    res.status(200).json({ message: `The customer with MaKhachHang: '${MaKhachHang}' has been deleted.` });
+  } catch (error) {
+    res.status(500).json({ error: "Error while deleting customer." });
+  }
 });
 
 module.exports = router;

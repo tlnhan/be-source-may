@@ -25,7 +25,7 @@ router.post("/", async (req, res, next) => {
       NgayCapNhat,
     } = req.body;
 
-    await mssql.query(
+    const result = await mssql.query(
       `
           INSERT INTO NhanVien (
             [MaNV],
@@ -50,56 +50,56 @@ router.post("/", async (req, res, next) => {
           )
             `
     );
-    res
-      .status(200)
-      .json({ message: "The employee has been added successfully ." });
+    res.status(200).json(result.recordset);
   } catch (error) {
     res.status(500).json({ error: "Error while adding employee." });
   }
 });
 
 router.put("/", async (req, res, next) => {
-    try {
-        const {
-            MaNV,
-            BoPhanID,
-            ChucVuID,
-            HoTen,
-            NgaySinh,
-            Email,
-            SoDT,
-            NgayVaoLam,
-            NgayCapNhat,
-          } = req.body;
-    
-        await mssql.query(
-          `
+  try {
+    const {
+      MaNV,
+      BoPhanID,
+      ChucVuID,
+      HoTen,
+      NgaySinh,
+      Email,
+      SoDT,
+      NgayVaoLam,
+      NgayCapNhat,
+    } = req.body;
+
+    const result = await mssql.query(
+      `
                 UPDATE NhanVien
                 SET BoPhanID = '${BoPhanID}', 
                 ChucVuID = '${ChucVuID}', 
                 HoTen = '${HoTen}', 
                 NgaySinh = '${NgaySinh}', 
-                EMail = '${Email}', 
+                Email = '${Email}', 
                 SoDT = '${SoDT}', 
                 NgayVaoLam = '${NgayVaoLam}', 
                 NgayCapNhat = '${NgayCapNhat}' 
                 WHERE MaNV = '${MaNV}'
-            `,
-        );
-        res.status(200).json({ message: "The employee has been updated." });
-      } catch (error) {
-        res.status(500).json({ error: "Error while updating employee." });
-      }
+            `
+    );
+    res.status(200).json(result.recordset);
+  } catch (error) {
+    res.status(500).json({ error: "Error while updating employee." });
+  }
 });
 
 router.delete("/", async (req, res, next) => {
-    try {
-        const MaNV = req.body.MaNV;
-        await mssql.query(`DELETE FROM NhanVien WHERE MaNV = '${MaNV}'`);
-        res.status(200).json({ message: "The employee has been deleted." });
-    } catch (error) {
-        res.status(500).json({ error: 'Error while deleting employee.' });
-    }
+  try {
+    const { MaNV } = req.body;
+    await mssql.query(`DELETE FROM NhanVien WHERE MaNV = '${MaNV}'`);
+    res
+      .status(200)
+      .json({ message: `The employee with MaNV: '${MaNV}' has been deleted.` });
+  } catch (error) {
+    res.status(500).json({ error: "Error while deleting employee." });
+  }
 });
 
 module.exports = router;

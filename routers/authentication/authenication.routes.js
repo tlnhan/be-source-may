@@ -34,7 +34,7 @@ router.post("/", async (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json("Có lỗi bên server.");
+      res.status(500).json("Server errors.");
     });
 });
 
