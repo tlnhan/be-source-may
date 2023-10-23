@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mssql = require("mssql");
-const mssqlConfig = require("../../configs/database.config");
+const mssqlConfig = require("../../configs/database");
 
 router.get("/", async (req, res, next) => {});
 
