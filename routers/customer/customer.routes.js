@@ -1,21 +1,21 @@
 const express = require("express");
 const router = express.Router();
 const mssql = require("mssql");
+const mssqlConfig = require("../../configs/database");
 
-router.get("/", async (req, res, next) => {
+router.get("/", async (req, res) => {
   try {
-    const result = await mssql.query("SELECT * FROM DM_KhachHang");
+    const result = await mssql.query("EXEC sp_LayDanhSachKhachHang");
+
     res.status(200).json(result.recordset);
   } catch (error) {
-    res.status(500).json({ error: "Error while getting customers." });
+    res.status(500).json({ error: "Lỗi khi lấy danh sách khách hàng." });
   }
 });
 
 router.post("/", async (req, res, next) => {
   try {
     const {
-      Ma_Auto,
-      MaKhachHang,
       TenKhachHang,
       Tentat,
       DiaChi,
@@ -25,51 +25,32 @@ router.post("/", async (req, res, next) => {
       NguoiDaiDien,
       NguoiLH,
       ThongTinLH,
-      TamNgung,
     } = req.body;
 
-    const result = await mssql.query(
-      `
-          INSERT INTO DM_KhachHang (
-            [Ma_Auto],
-            [MaKhachHang],
-            [TenKhachHang],
-            [Tentat],
-            [DiaChi],
-            [SoDT],
-            [Fax],
-            [Masothue],
-            [NguoiDaiDien],
-            [NguoiLH],
-            [ThongTinLH],
-            [TamNgung]
-          ) VALUES (
-            '${Ma_Auto}',
-            '${MaKhachHang}',
-            N'${TenKhachHang}',
-            N'${Tentat}',
-            N'${DiaChi}',
-            '${SoDT}',
-            '${Fax}',
-            '${Masothue}',
-            N'${NguoiDaiDien}',
-            N'${NguoiLH}',
-            N'${ThongTinLH}',
-            '${TamNgung}'
-          )
-            `
-    );
-    res.status(200).json(result.recordset);
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+    request.input("TenKhachHang", mssql.NVarChar, TenKhachHang);
+    request.input("Tentat", mssql.NVarChar, Tentat);
+    request.input("DiaChi", mssql.NVarChar, DiaChi);
+    request.input("SoDT", mssql.VarChar, SoDT);
+    request.input("Fax", mssql.VarChar, Fax);
+    request.input("Masothue", mssql.VarChar, Masothue);
+    request.input("NguoiDaiDien", mssql.NVarChar, NguoiDaiDien);
+    request.input("NguoiLH", mssql.NVarChar, NguoiLH);
+    request.input("ThongTinLH", mssql.NVarChar, ThongTinLH);
+
+    await request.execute("sp_ThemKhachHang");
+
+    res.status(201).json({ message: "Thêm thông tin khách hàng thành công." });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Error while adding customer." });
+    res.status(500).json({ error: "Lỗi khi thêm thông tin khách hàng." });
   }
 });
 
 router.put("/", async (req, res, next) => {
   try {
     const {
-      Ma_Auto,
       MaKhachHang,
       TenKhachHang,
       Tentat,
@@ -80,41 +61,46 @@ router.put("/", async (req, res, next) => {
       NguoiDaiDien,
       NguoiLH,
       ThongTinLH,
-      TamNgung,
     } = req.body;
 
-    const result = await mssql.query(
-      `
-            UPDATE DM_KhachHang
-            SET Ma_Auto = '${Ma_Auto}', 
-            TenKhachHang = N'${TenKhachHang}', 
-            Tentat = N'${Tentat}', 
-            DiaChi = N'${DiaChi}', 
-            SoDT = '${SoDT}', 
-            Fax = '${Fax}', 
-            Masothue = '${Masothue}', 
-            NguoiDaiDien = N'${NguoiDaiDien}', 
-            NguoiLH = N'${NguoiLH}', 
-            ThongTinLH = N'${ThongTinLH}', 
-            TamNgung = '${TamNgung}'
-            WHERE MaKhachHang = '${MaKhachHang}'
-        `
-    );
-    res.status(200).json(result.recordset);
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+    request.input("MaKhachHang", mssql.VarChar, MaKhachHang);
+    request.input("TenKhachHang", mssql.NVarChar, TenKhachHang);
+    request.input("Tentat", mssql.NVarChar, Tentat);
+    request.input("DiaChi", mssql.NVarChar, DiaChi);
+    request.input("SoDT", mssql.VarChar, SoDT);
+    request.input("Fax", mssql.VarChar, Fax);
+    request.input("Masothue", mssql.VarChar, Masothue);
+    request.input("NguoiDaiDien", mssql.NVarChar, NguoiDaiDien);
+    request.input("NguoiLH", mssql.NVarChar, NguoiLH);
+    request.input("ThongTinLH", mssql.NVarChar, ThongTinLH);
+
+    await request.execute("sp_CapNhatKhachHang");
+
+    res
+      .status(200)
+      .json({ message: "Cập nhật thông tin khách hàng thành công." });
   } catch (error) {
-    res.status(500).json({ error: "Error while updating customer." });
+    res.status(500).json({ error: "Lỗi khi cập nhật thông tin khách hàng." });
   }
 });
 
 router.delete("/", async (req, res, next) => {
   try {
     const { MaKhachHang } = req.body;
-    await mssql.query(
-      `DELETE FROM DM_KhachHang WHERE MaKhachHang = '${MaKhachHang}'`
-    );
-    res.status(200).json({ message: `The customer with MaKhachHang: '${MaKhachHang}' has been deleted.` });
+
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+    request.input("MaKhachHang", mssql.VarChar, MaKhachHang);
+
+    await request.execute("sp_XoaKhachHang");
+
+    res.status(200).json({ message: "Xóa khách hàng thành công." });
   } catch (error) {
-    res.status(500).json({ error: "Error while deleting customer." });
+    res.status(500).json({ error: "Lỗi khi xóa khách hàng." });
   }
 });
 
