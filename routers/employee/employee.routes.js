@@ -9,7 +9,7 @@ router.get("/", async (req, res, next) => {
 
     res.status(200).json(result.recordset);
   } catch (error) {
-    res.status(500).json({ error: "Lỗi khi lấy danh sách khách hàng." });
+    res.status(500).json({ error: "Lỗi khi lấy danh sách nhân viên." });
   }
 });
 
@@ -57,38 +57,46 @@ router.put("/", async (req, res, next) => {
       Email,
       SoDT,
       NgayVaoLam,
-      NgayCapNhat,
     } = req.body;
 
-    const result = await mssql.query(
-      `
-                UPDATE NhanVien
-                SET BoPhanID = '${BoPhanID}', 
-                ChucVuID = '${ChucVuID}', 
-                HoTen = '${HoTen}', 
-                NgaySinh = '${NgaySinh}', 
-                Email = '${Email}', 
-                SoDT = '${SoDT}', 
-                NgayVaoLam = '${NgayVaoLam}', 
-                NgayCapNhat = '${NgayCapNhat}' 
-                WHERE MaNV = '${MaNV}'
-            `
-    );
-    res.status(200).json(result.recordset);
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+    request.input("MaNV", mssql.NVarChar, MaNV);
+    request.input("BoPhanID", mssql.Int, BoPhanID);
+    request.input("ChucVuID", mssql.Int, ChucVuID);
+    request.input("HoTen", mssql.NVarChar, HoTen);
+    request.input("NgaySinh", mssql.Date, NgaySinh);
+    request.input("Email", mssql.NVarChar, Email);
+    request.input("SoDT", mssql.VarChar, SoDT);
+    request.input("NgayVaoLam", mssql.Date, NgayVaoLam);
+
+    await request.execute("sp_CapNhatNhanVien");
+
+    res
+      .status(200)
+      .json({ message: "Cập nhật thông tin nhân viên thành công." });
   } catch (error) {
-    res.status(500).json({ error: "Error while updating employee." });
+    res.status(500).json({ error: "Lỗi khi cập nhật thông tin nhân viên." });
   }
 });
 
 router.delete("/", async (req, res, next) => {
   try {
     const { MaNV } = req.body;
-    await mssql.query(`DELETE FROM NhanVien WHERE MaNV = '${MaNV}'`);
+
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+    request.input("MaNV", mssql.NVarChar, MaNV);
+
+    await request.execute("sp_XoaKhachHang");
+
     res
       .status(200)
-      .json({ message: `The employee with MaNV: '${MaNV}' has been deleted.` });
+      .json({ message: "Xóa khách thông tin nhân viên thành công." });
   } catch (error) {
-    res.status(500).json({ error: "Error while deleting employee." });
+    res.status(500).json({ error: "Lỗi khi xóa thông tin nhân viên." });
   }
 });
 
