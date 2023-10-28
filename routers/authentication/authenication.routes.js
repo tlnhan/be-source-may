@@ -30,7 +30,7 @@ router.post("/", async (req, res, next) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json("Lỗi máy chủ.");
+    res.status(500).json({ err: "Lỗi máy chủ." });
   }
 });
 

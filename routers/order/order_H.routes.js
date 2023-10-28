@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const mssql = require("mssql");
+const mssqlConfig = require("../../configs/database");
 
 router.get("/", async (req, res, next) => {
   try {
@@ -27,71 +28,44 @@ router.post("/", async (req, res, next) => {
       NgayBDGH,
       NgayKTGH,
       DienGiaiTN,
-      NgayTao,
       NguoiTao,
-      NgayCapNhat,
-      NguoiCapNhat,
-      DongDonHang,
-      NguoiDong,
-      NgayDong,
     } = req.body;
 
-    const result = await mssql.query(
-      `
-                INSERT INTO DonHang_H (
-                    [SoDH],
-                    [KhachHang_ID],
-                    [NguoiLap_ID],
-                    [NgayLap],
-                    [NgayYCGH],
-                    [PhuongThucGH],
-                    [GhiChu],
-                    [NguoiTiepNhan],
-                    [NgayTN],
-                    [NgaySX],
-                    [NgayBDGH],
-                    [NgayKTGH],
-                    [DienGiaiTN],
-                    [NgayTao],
-                    [NguoiTao],
-                    [NgayCapNhat],
-                    [NguoiCapNhat],
-                    [DongDonHang],
-                    [NguoiDong],
-                    [NgayDong]
-                ) VALUES (
-                  '${SoDH}',
-                  '${KhachHang_ID}',
-                  '${NguoiLap_ID}',
-                  '${NgayLap}',
-                  '${NgayYCGH}',
-                  N'${PhuongThucGH}',
-                  N'${GhiChu}',
-                  N'${NguoiTiepNhan}',
-                  '${NgayTN}',
-                  '${NgaySX}',
-                  '${NgayBDGH}',
-                  '${NgayKTGH}',
-                  N'${DienGiaiTN}',
-                  '${NgayTao}',
-                  N'${NguoiTao}',
-                  '${NgayCapNhat}',
-                  N'${NguoiCapNhat}',
-                  '${DongDonHang}',
-                  N'${NguoiDong}',
-                  '${NgayDong}'
-                )
-                  `
-    );
-    res.status(200).json(result.recordset);
+    const pool = await mssql.connect(mssqlConfig);
+    const request = new mssql.Request(pool);
+
+    request.input("SoDH", mssql.VarChar, SoDH);
+    request.input("KhachHang_ID", mssql.Int, KhachHang_ID);
+    request.input("NguoiLap_ID", mssql.Int, NguoiLap_ID);
+    request.input("NgayLap", mssql.SmallDateTime, NgayLap);
+    request.input("NgayYCGH", mssql.SmallDateTime, NgayYCGH);
+    request.input("PhuongThucGH", mssql.NVarChar, PhuongThucGH);
+    request.input("GhiChu", mssql.NVarChar, GhiChu);
+    request.input("NguoiTiepNhan", mssql.Int, NguoiTiepNhan);
+    request.input("NgayTN", mssql.SmallDateTime, NgayTN);
+    request.input("NgaySX", mssql.VarChar, NgaySX);
+    request.input("NgayBDGH", mssql.VarChar, NgayBDGH);
+    request.input("NgayKTGH", mssql.VarChar, NgayKTGH);
+    request.input("DienGiaiTN", mssql.NVarChar, DienGiaiTN);
+    request.input("NguoiTao", mssql.Int, NguoiTao);
+
+    const result = await request.execute("sp_ThemDonHangH");
+
+    if (result.returnValue === 0) {
+      res.status(200).json({ message: "Đơn hàng H đã được thêm." });
+    } else {
+      res.status(500).json({ error: "Lỗi khi thêm đơn hàng H." });
+    }
   } catch (error) {
-    res.status(500).json({ error: "Error while adding order-H." });
+    console.log(error);
+    res.status(500).json({ error: "Lỗi máy chủ." });
   }
 });
 
 router.put("/", async (req, res, next) => {
   try {
     const {
+      DonHang_H,
       SoDH,
       KhachHang_ID,
       NguoiLap_ID,
@@ -105,55 +79,56 @@ router.put("/", async (req, res, next) => {
       NgayBDGH,
       NgayKTGH,
       DienGiaiTN,
-      NgayTao,
       NguoiTao,
-      NgayCapNhat,
-      NguoiCapNhat,
-      DongDonHang,
-      NguoiDong,
-      NgayDong,
     } = req.body;
 
-    const result = await mssql.query(
-      `
-                      UPDATE DonHang_H
-                      SET KhachHang_ID = '${KhachHang_ID}', 
-                      NguoiLap_ID = '${NguoiLap_ID}', 
-                      NgayLap = '${NgayLap}', 
-                      NgayYCGH = '${NgayYCGH}', 
-                      PhuongThucGH = '${PhuongThucGH}', 
-                      GhiChu = N'${GhiChu}', 
-                      NguoiTiepNhan = '${NguoiTiepNhan}', 
-                      NgayTN = '${NgayTN}', 
-                      NgaySX = '${NgaySX}',
-                      NgayBDGH = '${NgayBDGH}',
-                      NgayKTGH = '${NgayKTGH}',
-                      DienGiaiTN = '${DienGiaiTN}',
-                      NgayTao = '${NgayTao}',
-                      NguoiTao = '${NguoiTao}',
-                      NgayCapNhat = '${NgayCapNhat}',
-                      NguoiCapNhat = '${NguoiCapNhat}',
-                      DongDonHang = '${DongDonHang}',
-                      NguoiDong = '${NguoiDong}',
-                      NgayDong = '${NgayDong}',
-                      WHERE SoDH = '${SoDH}'
-                  `
-    );
-    res.status(200).json(result.recordset);
+    const pool = await mssql.connect(mssqlConfig);
+    const request = new mssql.Request(pool);
+
+    request.input("DonHang_H", mssql.BigInt, DonHang_H);
+    request.input("SoDH", mssql.VarChar, SoDH);
+    request.input("KhachHang_ID", mssql.Int, KhachHang_ID);
+    request.input("NguoiLap_ID", mssql.Int, NguoiLap_ID);
+    request.input("NgayLap", mssql.SmallDateTime, NgayLap);
+    request.input("NgayYCGH", mssql.SmallDateTime, NgayYCGH);
+    request.input("PhuongThucGH", mssql.NVarChar, PhuongThucGH);
+    request.input("GhiChu", mssql.NVarChar, GhiChu);
+    request.input("NguoiTiepNhan", mssql.Int, NguoiTiepNhan);
+    request.input("NgayTN", mssql.SmallDateTime, NgayTN);
+    request.input("NgaySX", mssql.VarChar, NgaySX);
+    request.input("NgayBDGH", mssql.VarChar, NgayBDGH);
+    request.input("NgayKTGH", mssql.VarChar, NgayKTGH);
+    request.input("DienGiaiTN", mssql.NVarChar, DienGiaiTN);
+    request.input("NguoiTao", mssql.Int, NguoiTao);
+
+    const result = await request.execute("sp_CapNhatDonHangH");
+
+    if (result.returnValue === 0) {
+      res.status(200).json({ message: "Đơn hàng H đã được cập nhật." });
+    } else {
+      res.status(500).json({ error: "Lỗi khi cập nhật đơn hàng H." });
+    }
   } catch (error) {
-    res.status(500).json({ error: "Error while updating order-H." });
+    console.log(error);
+    res.status(500).json({ error: "Lỗi máy chủ." });
   }
 });
 
 router.delete("/", async (req, res, next) => {
   try {
-    const { SoDH } = req.body;
-    await mssql.query(`DELETE FROM DonHang_H WHERE SoDH = '${SoDH}'`);
-    res.status(200).json({
-      message: `The order-H with SoDH: ${SoDH} has been deleted.`,
-    });
+    const { DonHang_H } = req.body;
+
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+    request.input("DonHang_H", mssql.BigInt, DonHang_H);
+
+    await request.execute("sp_XoaDonHangH ");
+
+    res.status(200).json({ message: "Xóa phân đơn hàng H thành công." });
   } catch (error) {
-    res.status(500).json({ error: "Error while deleting order-H." });
+    console.log(error);
+    res.status(500).json({ error: "Lỗi xóa đơn hàng H." });
   }
 });
 

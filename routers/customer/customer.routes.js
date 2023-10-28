@@ -9,6 +9,7 @@ router.get("/", async (req, res) => {
 
     res.status(200).json(result.recordset);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Lỗi khi lấy danh sách khách hàng." });
   }
 });
@@ -44,6 +45,7 @@ router.post("/", async (req, res, next) => {
 
     res.status(201).json({ message: "Thêm thông tin khách hàng thành công." });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Lỗi khi thêm thông tin khách hàng." });
   }
 });
@@ -83,6 +85,7 @@ router.put("/", async (req, res, next) => {
       .status(200)
       .json({ message: "Cập nhật thông tin khách hàng thành công." });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Lỗi khi cập nhật thông tin khách hàng." });
   }
 });
@@ -100,6 +103,7 @@ router.delete("/", async (req, res, next) => {
 
     res.status(200).json({ message: "Xóa khách hàng thành công." });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Lỗi khi xóa khách hàng." });
   }
 });
