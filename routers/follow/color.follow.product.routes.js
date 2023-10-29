@@ -3,7 +3,7 @@ const router = express.Router();
 const mssql = require("mssql");
 const mssqlConfig = require("../../configs/database");
 
-router.get("/getColors/:SanPham_Id", async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const { SanPham_Id } = req.body;
 
@@ -22,7 +22,7 @@ router.get("/getColors/:SanPham_Id", async (req, res, next) => {
   }
 });
 
-router.post("/addColor", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const { SanPham_Id, MauMoi } = req.body;
 
