@@ -14,12 +14,13 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const { ChiTiet_ID, DonGia, NgayTao, NguoiTao, NgayCapNhat, NguoiCapNhat } =
+    const { SanPham_Id, ChiTiet_ID, DonGia, NgayTao, NguoiTao, NgayCapNhat, NguoiCapNhat } =
       req.body;
 
     const result = await mssql.query(
       `
                         INSERT INTO SanPham_ChiTiet (
+                            [SanPham_Id],
                             [ChiTiet_ID],
                             [DonGia],
                             [NgayTao],
@@ -27,6 +28,7 @@ router.post("/", async (req, res, next) => {
                             [NgayCapNhat],
                             [NguoiCapNhat]
                         ) VALUES (
+                          '${SanPham_Id}',
                           '${ChiTiet_ID}',
                           '${DonGia}',
                           '${NgayTao}',
@@ -51,7 +53,7 @@ router.put("/", async (req, res, next) => {
     const result = await mssql.query(
       `
                           UPDATE SanPham_ChiTiet
-                          SET DonGia = '${DonGia}', 
+                          SET DonGia = '${DonGia}',
                           NgayTao = '${NgayTao}', 
                           NguoiTao = N'${NguoiTao}',
                           NgayCapNhat = '${NgayCapNhat}',
