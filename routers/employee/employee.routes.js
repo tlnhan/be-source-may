@@ -103,7 +103,7 @@ router.delete("/", async (req, res, next) => {
       .json({ message: "Xóa khách thông tin nhân viên thành công." });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Lỗi khi thêm phân công sản xuất." });
+    res.status(500).json({ error: "Lỗi khi xóa thông tin nhân viên." });
   }
 });
 

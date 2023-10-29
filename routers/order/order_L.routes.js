@@ -1,16 +1,18 @@
 const express = require("express");
 const router = express.Router();
 const mssql = require("mssql");
+const mssqlConfig = require("../../configs/database");
 
 router.get("/", async (req, res, next) => {
   try {
-    const result = await mssql.query("SELECT * FROM DonHang_L");
+    const result = await mssql.query("EXEC sp_DSLoai");
     res.status(200).json(result.recordset);
   } catch (error) {
-    res.status(500).json({ error: "Error while getting order-L." });
+    res.status(500).json({ error: "Lỗi khi lấy danh sách đơn hàng L." });
   }
 });
 
+// POST route to add a new record to DonHang_L
 router.post("/", async (req, res, next) => {
   try {
     const {
@@ -23,74 +25,77 @@ router.post("/", async (req, res, next) => {
       GhiChu,
     } = req.body;
 
-    const result = await mssql.query(
-      `
-                INSERT INTO DonHang_H (
-                    [DonHang_H],
-                    [SanPham_Id],
-                    [MauSP_Id],
-                    [Size_Id],
-                    [SoLuong],
-                    [NgayYCGH],
-                    [GhiChu]
-                ) VALUES (
-                  '${DonHang_H}',
-                  '${SanPham_Id}',
-                  '${MauSP_Id}',
-                  '${Size_Id}',
-                  '${SoLuong}',
-                  '${NgayYCGH}',
-                  N'${GhiChu}'
-                )
-                  `
-    );
-    res.status(200).json(result.recordset);
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+
+    request.input("DonHang_H", mssql.Int, DonHang_H);
+    request.input("SanPham_Id", mssql.Int, SanPham_Id);
+    request.input("MauSP_Id", mssql.Int, MauSP_Id);
+    request.input("Size_Id", mssql.Int, Size_Id);
+    request.input("SoLuong", mssql.Int, SoLuong);
+    request.input("NgayYCGH", mssql.VarChar(10), NgayYCGH);
+    request.input("GhiChu", mssql.NVarChar(200), GhiChu);
+
+    await request.query("EXEC sp_ThemDonHang_L");
+
+    res.status(200).json({ message: "Đã thêm đơn hàng L mới." });
   } catch (error) {
-    res.status(500).json({ error: "Error while adding order-L." });
+    console.error(error);
+    res.status(500).json({ error: "Lỗi khi thêm đơn hàng L." });
   }
 });
 
 router.put("/", async (req, res, next) => {
   try {
     const {
-        DonHang_L,
-        DonHang_H,
-        SanPham_Id,
-        MauSP_Id,
-        Size_Id,
-        SoLuong,
-        NgayYCGH,
-        GhiChu,
+      DonHang_L,
+      DonHang_H,
+      SanPham_Id,
+      MauSP_Id,
+      Size_Id,
+      SoLuong,
+      NgayYCGH,
+      GhiChu,
     } = req.body;
 
-    const result = await mssql.query(
-      `
-                      UPDATE DonHang_L
-                      SET DonHang_H = '${DonHang_H}',
-                      SanPham_Id = '${SanPham_Id}', 
-                      MauSP_Id = '${MauSP_Id}', 
-                      Size_Id = '${Size_Id}', 
-                      SoLuong = '${SoLuong}', 
-                      NgayYCGH = '${NgayYCGH}', 
-                      GhiChu = N'${GhiChu}'
-                      WHERE DonHang_L = '${DonHang_L}'
-                  `
-    );
-    res.status(200).json(result.recordset);
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+
+    request.input("DonHang_L", mssql.Int, DonHang_L);
+    request.input("DonHang_H", mssql.Int, DonHang_H);
+    request.input("SanPham_Id", mssql.Int, SanPham_Id);
+    request.input("MauSP_Id", mssql.Int, MauSP_Id);
+    request.input("Size_Id", mssql.Int, Size_Id);
+    request.input("SoLuong", mssql.Int, SoLuong);
+    request.input("NgayYCGH", mssql.VarChar(10), NgayYCGH);
+    request.input("GhiChu", mssql.NVarChar(200), GhiChu);
+
+    await request.query("EXEC sp_CapNhatDonHang_L");
+
+    res.status(200).json({ message: "Đã cập nhật đơn hàng L." });
   } catch (error) {
-    res.status(500).json({ error: "Error while updating order-L." });
+    console.error(error);
+    res.status(500).json({ error: "Lỗi khi cập nhật đơn hàng L." });
   }
 });
 
 router.delete("/", async (req, res, next) => {
   try {
     const { DonHang_L } = req.body;
-    await mssql.query(`DELETE FROM DonHang_H WHERE DonHang_L = '${DonHang_L}'`);
-    res.status(200).json({
-      message: `The order-L with DonHang_L: ${DonHang_L} has been deleted.`,
-    });
+
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+    request.input("DonHang_L", mssql.Int, DonHang_L);
+
+    await request.execute("sp_XoaBangLuongSanPham ");
+
+    res.status(200).json({ message: "Xóa bảng lượng sản phẩm thành công." });
   } catch (error) {
-    res.status(500).json({ error: "Error while deleting order-L." });
+    console.error(error);
+    res.status(500).json({ error: "Lỗi khi xóa đơn hàng L." });
   }
 });
 

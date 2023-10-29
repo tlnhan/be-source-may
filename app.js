@@ -15,7 +15,7 @@ const roleRouter = require("./routers/role/roles.routes");
 //Manufacture
 const assignmentRouter = require("./routers/manufacture/assignment.routes");
 const moveRouter = require("./routers/manufacture/move.routes");
-const salaryRouter = require("./routers/manufacture/salary.routes");
+const quantityRouter = require("./routers/manufacture/quantity.routes");
 const synchronizedRouter = require("./routers/manufacture/synchronized.routes");
 const updateRouter = require("./routers/manufacture/update.routes");
 //Product
@@ -42,6 +42,9 @@ const listColorRouter = require("./routers/list/list_color.routes");
 //Order
 const orderHRouter = require("./routers/order/order_H.routes");
 const orderLRouter = require("./routers/order/order_L.routes");
+//Follow
+const sizeFollowProductRouter = require("./routers/follow/size.follow.product.routes");
+const colorFollowProductRouter = require("./routers/follow/color.follow.product.routes");
 
 app.use(bodyParser.urlencoded({ extends: false }));
 app.use(bodyParser.json());
@@ -59,7 +62,7 @@ app.use("/api/role", roleRouter);
 //Manufacture
 app.use("/api/manufacture/assignment", assignmentRouter);
 app.use("/api/manufacture/move", moveRouter);
-app.use("/api/manufacture/salary", salaryRouter);
+app.use("/api/manufacture/quantity", quantityRouter);
 app.use("/api/manufacture/synchronized", synchronizedRouter);
 app.use("/api/manufacture/update", updateRouter);
 //Product
@@ -86,6 +89,9 @@ app.use("/api/list/color", listColorRouter);
 //Order
 app.use("/api/order/H", orderHRouter);
 app.use("/api/order/L", orderLRouter);
+//Follow
+app.use("/api/follow/product/size", sizeFollowProductRouter);
+app.use("/api/follow/product/color", colorFollowProductRouter);
 
 app.listen(dotenv.PORT, () => {
   console.log("Port is listening.");

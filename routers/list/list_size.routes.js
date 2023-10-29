@@ -4,91 +4,76 @@ const mssql = require("mssql");
 
 router.get("/", async (req, res, next) => {
   try {
-    const result = await mssql.query("SELECT * FROM DM_Size");
+    const result = await mssql.query("EXEC sp_DSSize");
+
     res.status(200).json(result.recordset);
   } catch (error) {
-    res.status(500).json({ error: "Error while getting list-size." });
+    res.status(500).json({ error: "Lỗi khi lấy danh sách size sản phẩm." });
   }
 });
 
 router.post("/", async (req, res, next) => {
   try {
-    const {
-      Ma,
-      Ten,
-      SizeCongTy,
-      NgayTao,
-      NguoiTao_ID,
-      NgayCapNhat,
-      NguoiCapNhat,
-    } = req.body;
+    const { MaSize, TenSize, SizeCTy, NguoiTao } = req.body;
 
-    await mssql.query(
-      `
-          INSERT INTO DM_Size (
-            [Ma],
-            [Ten],
-            [SizeCongTy],
-            [NgayTao],
-            [NguoiTao_ID],
-            [NgayCapNhat],
-            [NguoiCapNhat]
-          ) VALUES (
-            '${Ma}',
-            N'${Ten}',
-            '${SizeCongTy}',
-            '${NgayTao}',
-            '${NguoiTao_ID}',
-            '${NgayCapNhat}',
-            N'${NguoiCapNhat}',
-          )
-            `
-    );
+    const pool = await mssql.connect(mssqlConfig);
+    const request = new mssql.Request(pool);
+
+    request.input("MaSize", mssql.NVarChar(50), MaSize);
+    request.input("TenSize", mssql.NVarChar(255), TenSize);
+    request.input("SizeCTy", mssql.Float, SizeCTy);
+    request.input("NguoiTao", mssql.NVarChar(50), NguoiTao);
+
+    await request.execute("sp_ThemSize");
+
     res
-      .status(200)
-      .json({ message: "The list-size has been added successfully ." });
+      .status(201)
+      .json({ message: "Thêm kích thước sản phẩm mới thành công." });
   } catch (error) {
-    res.status(500).json({ error: "Error while adding list-size." });
+    console.error(error);
+    res.status(500).json({ error: "Lỗi khi thêm kích thước sản phẩm mới." });
   }
 });
 
 router.put("/", async (req, res, next) => {
   try {
-    const {
-      Ma,
-      Ten,
-      SizeCongTy,
-      NgayTao,
-      NguoiTao_ID,
-      NgayCapNhat,
-      NguoiCapNhat,
-    } = req.body;
+    const { SizeSP_Id, MaSize, TenSize, SizeCTy, NguoiCapNhat } = req.body;
 
-    await mssql.query(
-      `
-                UPDATE DM_Size
-                SET Ten = N'${Ten}', 
-                SizeCongTy = '${SizeCongTy}', 
-                NgayTao = '${NgayTao}', 
-                NguoiTao_ID = '${NguoiTao_ID}', 
-                NgayCapNhat = '${NgayCapNhat}', 
-                NguoiCapNhat = N'${NguoiCapNhat}', 
-                WHERE Ma = '${Ma}'
-            `
-    );
-    res.status(200).json({ message: "The list-size has been updated." });
+    const pool = await mssql.connect(mssqlConfig);
+    const request = new mssql.Request(pool);
+
+    request.input("SizeSP_Id", mssql.Int, SizeSP_Id);
+    request.input("MaSize", mssql.NVarChar(50), MaSize);
+    request.input("TenSize", mssql.NVarChar(255), TenSize);
+    request.input("SizeCTy", mssql.Float, SizeCTy);
+    request.input("NguoiCapNhat", mssql.NVarChar(50), NguoiCapNhat);
+
+    await request.execute("sp_CapNhatSize");
+
+    res
+      .status(200)
+      .json({ message: "Cập nhật kích thước sản phẩm thành công." });
   } catch (error) {
-    res.status(500).json({ error: "Error while updating list-size." });
+    console.error(error);
+    res.status(500).json({ error: "Lỗi khi cập nhật kích thước sản phẩm." });
   }
 });
 
 router.delete("/", async (req, res, next) => {
   try {
-    const { Ma } = req.body;
-    await mssql.query(`DELETE FROM DM_Size WHERE Ma = '${Ma}'`);
-    res.status(200).json({ message: "The list-size has been deleted." });
+    const { SizeSP_Id } = req.body;
+
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+    request.input("SizeSP_Id", mssql.Int, SizeSP_Id);
+
+    await request.execute("sp_XoaSize");
+
+    res.status(200).json({ message: "Xóa kích thước sản phẩm thành công." });
   } catch (error) {
-    res.status(500).json({ error: "Error while deleting list-size." });
+    console.log(error);
+    res.status(500).json({ error: "Lỗi khi xóa kích thước sản phẩm." });
   }
 });
 

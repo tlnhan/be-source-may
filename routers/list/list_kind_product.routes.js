@@ -1,109 +1,91 @@
 const express = require("express");
 const router = express.Router();
 const mssql = require("mssql");
+const mssqlConfig = require("../../configs/database");
 
 router.get("/", async (req, res, next) => {
   try {
-    const result = await mssql.query("SELECT * FROM DM_LoaiSP");
+    const result = await mssql.query("EXEC sp_DSLoai");
+
     res.status(200).json(result.recordset);
   } catch (error) {
-    res.status(500).json({ error: "Error while getting list-kind-product." });
+    console.log(error);
+    res.status(500).json({ error: "Lỗi khi lấy danh sách loại sản phẩm." });
   }
 });
 
 router.post("/", async (req, res, next) => {
   try {
-    const {
-      Ma,
-      Ten,
-      Tentat,
-      GhiChu,
-      ChungLoai_Id,
-      TamNgung,
-      Createdate,
-      Create_User,
-      Update_Date,
-      Update_User,
-    } = req.body;
+    const { Ma, Ten, Tentat, GhiChu, ChungLoai_Id, NguoiTao } = req.body;
 
-    const result = await mssql.query(
-      `
-                INSERT INTO DM_LoaiSP (
-                    [Ma],
-                    [Ten],
-                    [Tentat],
-                    [GhiChu],
-                    [ChungLoai_Id],
-                    [TamNgung],
-                    [Createdate],
-                    [Create_User],
-                    [Update_Date],
-                    [Update_User]
-                ) VALUES (
-                  '${Ma}',
-                  N'${Ten}',
-                  '${Tentat}',
-                  N'${GhiChu}',
-                  '${ChungLoai_Id}',
-                  '${TamNgung}',
-                  '${Createdate}',
-                  N'${Create_User}',
-                  '${Update_Date}',
-                  N'${Update_User}'
-                )
-                  `
-    );
-    res.status(200).json(result.recordset);
+    const pool = await mssql.connect(mssqlConfig);
+    const request = new mssql.Request(pool);
+
+    request.input("Ma", mssql.NVarChar(15), Ma);
+    request.input("Ten", mssql.NVarChar(150), Ten);
+    request.input("Tentat", mssql.NVarChar(50), Tentat);
+    request.input("GhiChu", mssql.NVarChar(150), GhiChu);
+    request.input("ChungLoai_Id", mssql.Int, ChungLoai_Id);
+    request.input("NguoiTao", mssql.NVarChar(50), NguoiTao);
+
+    await request.execute("sp_ThemLoai");
+
+    res.status(201).json({ message: "Thêm loại sản phẩm mới thành công." });
   } catch (error) {
-    res.status(500).json({ error: "Error while adding list-kind-product." });
+    console.error(error);
+    res.status(500).json({ error: "Lỗi khi thêm loại sản phẩm mới." });
   }
 });
 
 router.put("/", async (req, res, next) => {
   try {
     const {
+      Loai_ID,
       Ma,
       Ten,
-      Tentat,
+      TenTat,
       GhiChu,
       ChungLoai_Id,
+      NguoiCapNhat,
       TamNgung,
-      Createdate,
-      Create_User,
-      Update_Date,
-      Update_User,
     } = req.body;
 
-    const result = await mssql.query(
-      `
-                      UPDATE DM_LoaiSP
-                      SET Ten = '${Ten}', 
-                      Tentat = '${Tentat}', 
-                      GhiChu = '${GhiChu}', 
-                      ChungLoai_Id = '${ChungLoai_Id}',
-                      TamNgung = '${TamNgung}', 
-                      Createdate = '${Createdate}', 
-                      Create_User = N'${Create_User}', 
-                      Update_Date = '${Update_Date}', 
-                      Update_User = '${Update_User}',
-                      WHERE Ma = '${Ma}'
-                  `
-    );
-    res.status(200).json(result.recordset);
+    const pool = await mssql.connect(mssqlConfig);
+    const request = new mssql.Request(pool);
+
+    request.input("Loai_Id", mssql.Int, Loai_ID);
+    request.input("Ma", mssql.NVarChar(15), Ma);
+    request.input("Ten", mssql.NVarChar(150), Ten);
+    request.input("TenTat", mssql.NVarChar(50), TenTat);
+    request.input("GhiChu", mssql.NVarChar(150), GhiChu);
+    request.input("ChungLoai_Id", mssql.Int, ChungLoai_Id);
+    request.input("NguoiCapNhat", mssql.NVarChar(50), NguoiCapNhat);
+    request.input("TamNgung", mssql.Bit, TamNgung);
+
+    await request.execute("sp_CapNhatLoai");
+
+    res.status(200).json({ message: "Cập nhật loại sản phẩm thành công." });
   } catch (error) {
-    res.status(500).json({ error: "Error while updating list-kind-product." });
+    console.error(error);
+    res.status(500).json({ error: "Lỗi khi cập nhật loại sản phẩm." });
   }
 });
 
 router.delete("/", async (req, res, next) => {
   try {
-    const { Ma } = req.body;
-    await mssql.query(`DELETE FROM DM_LoaiSP WHERE Ma = '${Ma}'`);
-    res.status(200).json({
-      message: `The list-kind-product with Ma: ${Ma} has been deleted.`,
-    });
+    const { Loai_ID } = req.body;
+
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+    request.input("Loai_Id", mssql.Int, Loai_ID);
+
+    await request.execute("sp_XoaLoai");
+
+    res.status(200).json({ message: "Xóa loại sản phẩm thành công." });
   } catch (error) {
-    res.status(500).json({ error: "Error while deleting list-kind-product." });
+    console.log(error);
+    res.status(500).json({ error: "Lỗi khi xóa loại sản phẩm." });
   }
 });
 

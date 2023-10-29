@@ -12,7 +12,7 @@ router.get("/", async (req, res, next) => {
     console.log(error);
     res
       .status(500)
-      .json({ error: "Lỗi khi lấy danh sách bảng lương sản phẩm." });
+      .json({ error: "Lỗi khi lấy danh sách bảng lượng sản phẩm." });
   }
 });
 
@@ -52,10 +52,10 @@ router.post("/", async (req, res, next) => {
 
     await request.execute("sp_ThemBangLuongSanPham");
 
-    res.status(200).json({ message: "Bảng lương sản phẩm đã được thêm." });
+    res.status(200).json({ message: "Bảng lượng sản phẩm đã được thêm." });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Lỗi khi thêm bảng lương sản phẩm." });
+    res.status(500).json({ error: "Lỗi khi thêm bảng lượng sản phẩm." });
   }
 });
 
@@ -97,10 +97,10 @@ router.put("/", async (req, res, next) => {
 
     await request.execute("sp_CapNhatBangLuongSanPham");
 
-    res.status(200).json({ message: "Bảng lương sản phẩm đã được cập nhật." });
+    res.status(200).json({ message: "Bảng lượng sản phẩm đã được cập nhật." });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Lỗi khi cập nhật bảng lương sản phẩm." });
+    res.status(500).json({ error: "Lỗi khi cập nhật bảng lượng sản phẩm." });
   }
 });
 
@@ -115,10 +115,10 @@ router.delete("/", async (req, res, next) => {
 
     await request.execute("sp_XoaBangLuongSanPham ");
 
-    res.status(200).json({ message: "Xóa bảng lương sản phẩm thành công." });
+    res.status(200).json({ message: "Xóa bảng lượng sản phẩm thành công." });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Lỗi khi xóa bảng lương sản phẩm." });
+    res.status(500).json({ error: "Lỗi khi xóa bảng lượng sản phẩm." });
   }
 });
 
