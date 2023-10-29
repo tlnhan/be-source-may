@@ -13,12 +13,20 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const { MauSP_Id, GhiChu, NgayTao, NguoiTao, NgayCapNhat, NguoiCapNhat } =
-      req.body;
+    const {
+      SanPham_Id,
+      MauSP_Id,
+      GhiChu,
+      NgayTao,
+      NguoiTao,
+      NgayCapNhat,
+      NguoiCapNhat,
+    } = req.body;
 
     const result = await mssql.query(
       `
                     INSERT INTO SanPham_Mau (
+                        [SanPham_Id],
                         [MauSP_Id],
                         [GhiChu],
                         [NgayTao],
@@ -26,10 +34,11 @@ router.post("/", async (req, res, next) => {
                         [NgayCapNhat],
                         [NguoiCapNhat]
                     ) VALUES (
+                      '${SanPham_Id}',
                       '${MauSP_Id}',
                       '${GhiChu}',
-                      N'${NguoiTao}',
-                      '${NgayTao}',
+                      N'${NgayTao}',
+                      '${NguoiTao}',
                       '${NgayCapNhat}',
                       N'${NguoiCapNhat}'
                     )
@@ -37,6 +46,7 @@ router.post("/", async (req, res, next) => {
     );
     res.status(200).json(result.recordset);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Error while adding color-product." });
   }
 });
