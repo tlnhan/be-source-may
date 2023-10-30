@@ -44,7 +44,7 @@ router.post("/", async (req, res, next) => {
 
 router.put("/", async (req, res, next) => {
   try {
-    const { MauSP_Id, TenMau } = req.body;
+    const { SanPham_Id, MauMoi, MauSP_Id, TenMau } = req.body;
 
     const pool = await mssql.connect(mssqlConfig);
     const request = new mssql.Request(pool);
@@ -53,6 +53,8 @@ router.put("/", async (req, res, next) => {
       .input("Action", mssql.NVarChar(50), "Update")
       .input("MauSP_Id", mssql.Int, MauSP_Id)
       .input("TenMau", mssql.NVarChar(255), TenMau)
+      .input("SanPham_Id", mssql.Int, SanPham_Id)
+      .input("MauMoi", mssql.NVarChar(255), MauMoi)
       .execute("sp_MauTheoSanPham");
 
     res
