@@ -16,7 +16,6 @@ router.get("/", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
   try {
     const {
-      MaSP,
       TenSP,
       Tentat,
       GhiChu,
@@ -29,7 +28,6 @@ router.post("/", async (req, res, next) => {
     const pool = await mssql.connect(mssqlConfig);
     const request = new mssql.Request(pool);
 
-    request.input("MaSP", mssql.NVarChar(255), MaSP);
     request.input("TenSP", mssql.NVarChar(255), TenSP);
     request.input("Tentat", mssql.NVarChar(255), Tentat);
     request.input("GhiChu", mssql.NVarChar(255), GhiChu);
