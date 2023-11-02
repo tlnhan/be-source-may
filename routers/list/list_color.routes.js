@@ -16,12 +16,11 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const { MaMau, TenMau, MS, NguoiTao } = req.body;
+    const { TenMau, MS, NguoiTao } = req.body;
 
     const pool = await mssql.connect(mssqlConfig);
     const request = new mssql.Request(pool);
 
-    request.input("MaMau", mssql.NVarChar(50), MaMau);
     request.input("TenMau", mssql.NVarChar(255), TenMau);
     request.input("MS", mssql.FLOAT, MS);
     request.input("NguoiTao", mssql.NVarChar(50), NguoiTao);
@@ -37,14 +36,12 @@ router.post("/", async (req, res, next) => {
 
 router.put("/", async (req, res, next) => {
   try {
-    const { MauSP_Id, MaMau, TenMau, MS, NguoiTao } = req.body;
+    const { MauSP_Id, TenMau, MS, NguoiTao } = req.body;
 
     const pool = await mssql.connect(mssqlConfig);
     const request = new mssql.Request(pool);
 
     request.input("MauSP_Id", mssql.Int, MauSP_Id);
-    request.input("MaMau", mssql.NVarChar(50), MaMau);
-    request.input("MaMau", mssql.NVarChar(50), MaMau);
     request.input("TenMau", mssql.NVarChar(255), TenMau);
     request.input("MS", mssql.FLOAT, MS);
     request.input("NguoiTao", mssql.NVarChar(50), NguoiTao);

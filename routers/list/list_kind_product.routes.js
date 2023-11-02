@@ -16,12 +16,11 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const { Ma, Ten, Tentat, GhiChu, ChungLoai_Id, NguoiTao } = req.body;
+    const { Ten, Tentat, GhiChu, ChungLoai_Id, NguoiTao } = req.body;
 
     const pool = await mssql.connect(mssqlConfig);
     const request = new mssql.Request(pool);
 
-    request.input("Ma", mssql.NVarChar(15), Ma);
     request.input("Ten", mssql.NVarChar(150), Ten);
     request.input("Tentat", mssql.NVarChar(50), Tentat);
     request.input("GhiChu", mssql.NVarChar(150), GhiChu);
@@ -41,7 +40,6 @@ router.put("/", async (req, res, next) => {
   try {
     const {
       Loai_ID,
-      Ma,
       Ten,
       TenTat,
       GhiChu,
@@ -54,7 +52,6 @@ router.put("/", async (req, res, next) => {
     const request = new mssql.Request(pool);
 
     request.input("Loai_Id", mssql.Int, Loai_ID);
-    request.input("Ma", mssql.NVarChar(15), Ma);
     request.input("Ten", mssql.NVarChar(150), Ten);
     request.input("TenTat", mssql.NVarChar(50), TenTat);
     request.input("GhiChu", mssql.NVarChar(150), GhiChu);
