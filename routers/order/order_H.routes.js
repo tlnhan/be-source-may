@@ -5,7 +5,7 @@ const mssqlConfig = require("../../configs/database");
 
 router.get("/", async (req, res, next) => {
   try {
-    const result = await mssql.query("SELECT * FROM DonHang_H");
+    const result = await mssql.query("EXEC sp_LayDanhSachDonHang_H");
     res.status(200).json(result.recordset);
   } catch (error) {
     res.status(500).json({ error: "Error while getting order-H." });

@@ -5,7 +5,7 @@ const mssqlConfig = require("../../configs/database");
 
 router.get("/", async (req, res, next) => {
   try {
-    const result = await mssql.query("EXEC sp_DSLoai");
+    const result = await mssql.query("EXEC sp_LayDanhSachDonHang_L");
     res.status(200).json(result.recordset);
   } catch (error) {
     res.status(500).json({ error: "Lỗi khi lấy danh sách đơn hàng L." });
