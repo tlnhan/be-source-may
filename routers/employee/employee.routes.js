@@ -96,7 +96,7 @@ router.delete("/", async (req, res, next) => {
     const request = new mssql.Request(pool);
     request.input("id", mssql.Int, id);
 
-    await request.execute("sp_XoaKhachHang");
+    await request.execute("sp_XoaNhanVien");
 
     res
       .status(200)
