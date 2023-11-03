@@ -16,21 +16,12 @@ router.get("/", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const {
-      MaNV,
-      BoPhanID,
-      ChucVuID,
-      HoTen,
-      NgaySinh,
-      Email,
-      SoDT,
-      NgayVaoLam,
-    } = req.body;
+    const { BoPhanID, ChucVuID, HoTen, NgaySinh, Email, SoDT, NgayVaoLam } =
+      req.body;
 
     const pool = await mssql.connect(mssqlConfig);
     const request = new mssql.Request(pool);
 
-    request.input("MaNV", mssql.NVarChar, MaNV);
     request.input("BoPhanID", mssql.Int, BoPhanID);
     request.input("ChucVuID", mssql.Int, ChucVuID);
     request.input("HoTen", mssql.NVarChar, HoTen);
