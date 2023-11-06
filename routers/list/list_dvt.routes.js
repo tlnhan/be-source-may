@@ -9,6 +9,7 @@ router.get("/", async (req, res, next) => {
 
     res.status(200).json(result.recordset);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Lỗi khi lấy danh sách đơn vị tính." });
   }
 });
@@ -43,6 +44,7 @@ router.post("/", async (req, res, next) => {
 
     res.status(200).json({ message: "Đơn vị tính đã được thêm." });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Lỗi khi thêm đơn vị tính." });
   }
 });
@@ -79,6 +81,7 @@ router.put("/", async (req, res, next) => {
 
     res.status(200).json({ message: "Đơn vị tính đã được cập nhật." });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Lỗi khi cập nhật đơn vị tính." });
   }
 });
@@ -96,6 +99,7 @@ router.delete("/", async (req, res, next) => {
 
     res.status(200).json({ message: "Xóa đơn vị tính thành công." });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Lỗi khi xóa đơn vị tính." });
   }
 });

@@ -7,7 +7,7 @@ router.get("/", async (req, res, next) => {
     const result = await mssql.query("SELECT * FROM DM_ChungLoaiSP");
     res.status(200).json(result.recordset);
   } catch (error) {
-    res.status(500).json({ error: "Error while getting list-kindProduct." });
+    res.status(500).json({ error: "Lỗi khi lấy danh sách chủng loại sản phẩm." });
   }
 });
 
@@ -53,9 +53,10 @@ router.post("/", async (req, res, next) => {
                 )
                   `
     );
-    res.status(200).json(result.recordset);
+    res.status(200).json({ message: "Chủng loại sản phẩm đã được thêm." });
   } catch (error) {
-    res.status(500).json({ error: "Error while adding list-kindProduct." });
+    console.log(error);
+    res.status(500).json({ error: "Lỗi khi thêm chủng loại sản phẩm." });
   }
 });
 
@@ -89,9 +90,9 @@ router.put("/", async (req, res, next) => {
                       WHERE Ma = '${Ma}'
                   `
     );
-    res.status(200).json(result.recordset);
+    res.status(200).json({ message: "Cập nhật chủng loại sản phẩm thành công." });
   } catch (error) {
-    res.status(500).json({ error: "Error while updating list-kindProduct." });
+    res.status(500).json({ error: "Lỗi khi cập nhật chủng loại sản phẩm" });
   }
 });
 
@@ -100,10 +101,10 @@ router.delete("/", async (req, res, next) => {
     const { Ma } = req.body;
     await mssql.query(`DELETE FROM DM_ChungLoaiSP WHERE Ma = '${Ma}'`);
     res.status(200).json({
-      message: `The list-kindProduct with Ma: ${Ma} has been deleted.`,
+      message: `Chủng loại sản phẩm đã được xóa.`,
     });
   } catch (error) {
-    res.status(500).json({ error: "Error while deleting list-kindProduct." });
+    res.status(500).json({ error: "Lỗi khi xóa chủng loại sản phẩm" });
   }
 });
 
