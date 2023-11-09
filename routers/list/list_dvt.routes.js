@@ -21,9 +21,7 @@ router.post("/", async (req, res, next) => {
       VietTat,
       GhiChu,
       TamNgung,
-      Createdate,
       Create_User,
-      Update_Date,
       Update_User,
     } = req.body;
 
@@ -35,9 +33,7 @@ router.post("/", async (req, res, next) => {
     request.input("VietTat", mssql.NVarChar(50), VietTat);
     request.input("GhiChu", mssql.NVarChar(150), GhiChu);
     request.input("TamNgung", mssql.Bit, TamNgung);
-    request.input("Createdate", mssql.SmallDateTime, Createdate);
     request.input("Create_User", mssql.NVarChar(50), Create_User);
-    request.input("Update_Date", mssql.SmallDateTime, Update_Date);
     request.input("Update_User", mssql.NVarChar(50), Update_User);
 
     await request.execute("sp_ThemDVT");
@@ -57,9 +53,6 @@ router.put("/", async (req, res, next) => {
       VietTat,
       GhiChu,
       TamNgung,
-      Createdate,
-      Create_User,
-      Update_Date,
       Update_User,
     } = req.body;
 
@@ -72,9 +65,6 @@ router.put("/", async (req, res, next) => {
     request.input("VietTat", mssql.NVarChar(50), VietTat);
     request.input("GhiChu", mssql.NVarChar(150), GhiChu);
     request.input("TamNgung", mssql.Bit, TamNgung);
-    request.input("Createdate", mssql.SmallDateTime, Createdate);
-    request.input("Create_User", mssql.NVarChar(50), Create_User);
-    request.input("Update_Date", mssql.SmallDateTime, Update_Date);
     request.input("Update_User", mssql.NVarChar(50), Update_User);
 
     await request.execute("sp_CapNhatDVT");
