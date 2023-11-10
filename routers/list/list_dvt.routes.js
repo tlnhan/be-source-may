@@ -18,40 +18,43 @@ router.post("/", async (req, res, next) => {
   try {
     const {
       TenDVT,
+      MaDVT,
       VietTat,
       GhiChu,
-      TamNgung,
-      Createdate,
+      // TamNgung,
+      // Createdate,
       Create_User,
-      Update_Date,
-      Update_User,
+      // Update_Date,
+      // Update_User,
     } = req.body;
 
     const pool = await mssql.connect(mssqlConfig);
 
     const request = new mssql.Request(pool);
 
+    request.input("MaDVT", mssql.VarChar(15), MaDVT);
     request.input("TenDVT", mssql.NVarChar(150), TenDVT);
     request.input("VietTat", mssql.NVarChar(50), VietTat);
     request.input("GhiChu", mssql.NVarChar(150), GhiChu);
-    request.input("TamNgung", mssql.Bit, TamNgung);
-    request.input("Createdate", mssql.SmallDateTime, Createdate);
+    // request.input("TamNgung", mssql.Bit, TamNgung);
+    // request.input("Createdate", mssql.SmallDateTime, Createdate);
     request.input("Create_User", mssql.NVarChar(50), Create_User);
-    request.input("Update_Date", mssql.SmallDateTime, Update_Date);
-    request.input("Update_User", mssql.NVarChar(50), Update_User);
+    // request.input("Update_Date", mssql.SmallDateTime, Update_Date);
+    // request.input("Update_User", mssql.NVarChar(50), Update_User);
 
     await request.execute("sp_ThemDVT");
 
     res.status(200).json({ message: "Đơn vị tính đã được thêm." });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Lỗi khi thêm đơn vị tính." });
+    res.status(500).json({ error: "Lỗi khi thêm đơn vị tính nha" });
   }
 });
 
 router.put("/", async (req, res, next) => {
   try {
     const {
+      MaDVT,
       DVT_ID,
       TenDVT,
       VietTat,
@@ -68,6 +71,7 @@ router.put("/", async (req, res, next) => {
     const request = new mssql.Request(pool);
 
     request.input("DVT_ID", mssql.Int, DVT_ID);
+    request.input("MaDVT", mssql.VarChar(15), MaDVT);
     request.input("TenDVT", mssql.NVarChar(150), TenDVT);
     request.input("VietTat", mssql.NVarChar(50), VietTat);
     request.input("GhiChu", mssql.NVarChar(150), GhiChu);
