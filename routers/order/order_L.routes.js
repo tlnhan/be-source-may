@@ -12,7 +12,6 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// POST route to add a new record to DonHang_L
 router.post("/", async (req, res, next) => {
   try {
     const {
