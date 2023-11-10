@@ -19,57 +19,74 @@ router.get("/", async (req, res, next) => {
 router.post("/", async (req, res, next) => {
     try {
         const {
-            SanLuongId,
-            PhanCongId,
-            NgaySanLuong,
+            SanLuong_Id,
+            PhanCong_Id,
             SoLuong,
             KhoaSanLuong,
-            NguoiKhoaSanLuong,
-            
+            NgayKhoaSanLuong,
+            NguoiKhoaSanLuong,         
         } = req.body;
 
         const pool = await mssql.connect(mssqlConfig);
-
         const request = new mssql.Request(pool);
+        const requestCheck = new mssql.Request(pool);
+        requestCheck.input("PhanCongId", mssql.Int, PhanCong_Id);
+        requestCheck.input("SanLuongId", mssql.BigInt, SanLuong_Id);
+        const result = await requestCheck.query("SELECT SoLuong FROM PhanCongSanXuat WHERE PhanCong_Id = @PhanCongId");
+        const resultQuantity = await requestCheck.query("SELECT COUNT(*) AS Count FROM CapNhatSanLuong WHERE SanLuong_Id = @SanLuongId");
+        const allocatedQuantity = result.recordset[0].SoLuong;
+        const checkExsit = resultQuantity.recordset[0].Count;
 
-        request.input("SanLuongId", mssql.BigInt, SanLuongId);
-        request.input("PhanCongId", mssql.Int, PhanCongId);
-        request.input("NgaySanLuong", mssql.Date, NgaySanLuong);
+        if (SoLuong > allocatedQuantity) {
+            return res.status(400).json({ error: "Số lượng cập nhật không thể lớn hơn số lượng phân công." });
+        }   
+
+        if (checkExsit > 0) {
+            return res.status(400).json({ error: "Bị trùng sản lượng. Vui lòng thử lại" });
+        }
+        request.input("SanLuongId", mssql.BigInt, SanLuong_Id);
+        request.input("PhanCongId", mssql.Int, PhanCong_Id);
         request.input("SoLuong", mssql.Int, SoLuong);
         request.input("KhoaSanLuong", mssql.Bit, KhoaSanLuong);
+        request.input("NgayKhoaSanLuong", mssql.SmallDateTime, NgayKhoaSanLuong);
         request.input("NguoiKhoaSanLuong", mssql.Int, NguoiKhoaSanLuong);
         await request.execute("sp_ThemTongHopLuong");
-
+       
         res.status(200).json({ message: "Thêm thành công!" });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Lỗi khi thêm mới" });
+        res.status(500).json({ error: "Xảy ra lỗi khi thêm mới" });
     }
 });
 
 router.put("/", async (req, res, next) => {
     try {
         const {
-            SanLuongId,
-            PhanCongId,
-            NgaySanLuong,
-            ThoiGianSanLuong,
+            SanLuong_Id,
+            PhanCong_Id,
             SoLuong,
             KhoaSanLuong,
-            NguoiKhoaSanLuong,
-            
+            NgayKhoaSanLuong,
+            NguoiKhoaSanLuong,           
         } = req.body;
 
         const pool = await mssql.connect(mssqlConfig);
-
         const request = new mssql.Request(pool);
+        const requestCheck = new mssql.Request(pool);
+        requestCheck.input("PhanCongId", mssql.Int, PhanCong_Id);
+        const result = await requestCheck.query("SELECT SoLuong FROM PhanCongSanXuat WHERE PhanCong_Id = @PhanCongId");
+        const allocatedQuantity = result.recordset[0].SoLuong;
 
-        request.input("SanLuongId", mssql.BigInt, SanLuongId);
-        request.input("PhanCongId", mssql.Int, PhanCongId);
-        request.input("NgaySanLuong", mssql.Date, NgaySanLuong);
-        request.input("ThoiGianSanLuong", mssql.SmallDateTime, ThoiGianSanLuong);
+        if (SoLuong > allocatedQuantity) {
+            return res.status(400).json({ error: "Số lượng cập nhật không thể lớn hơn số lượng phân công." });
+        }   
+
+
+        request.input("SanLuongId", mssql.BigInt, SanLuong_Id);
+        request.input("PhanCongId", mssql.Int, PhanCong_Id);
         request.input("SoLuong", mssql.Int, SoLuong);
         request.input("KhoaSanLuong", mssql.Bit, KhoaSanLuong);
+        request.input("NgayKhoa", mssql.SmallDateTime, NgayKhoaSanLuong);
         request.input("NguoiKhoaSanLuong", mssql.Int, NguoiKhoaSanLuong);
         await request.execute("sp_CapNhatTongHopLuong");
 
