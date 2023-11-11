@@ -18,7 +18,8 @@ const assignmentRouter = require("./routers/manufacture/assignment.routes");
 const quantityRouter = require("./routers/manufacture/quantity.routes");
 // const synchronizedRouter = require("./routers/manufacture/synchronized.routes");
 const updateRouter = require("./routers/manufacture/update.routes");
-const updateQuantity = require("./routers/manufacture/updatequantity.routes");
+const updateQuantityRouter = require("./routers/manufacture/updatequantity.routes");
+const blockOrOpenQuantityRouter = require("./routers/manufacture/block_or_open_quantity.routes");
 //Product
 const colorRouter = require("./routers/procduct/color.routes");
 const detailRouter = require("./routers/procduct/detail.routes");
@@ -66,7 +67,8 @@ app.use("/api/manufacture/assignment", assignmentRouter);
 app.use("/api/manufacture/quantity", quantityRouter);
 // app.use("/api/manufacture/synchronized", synchronizedRouter);
 app.use("/api/manufacture/update", updateRouter);
-app.use("/api/manufacture/updatequantity", updateQuantity);
+app.use("/api/manufacture/update/quantity", updateQuantityRouter);
+app.use("/api/manufacture/update/blockOrOpenQuantity", blockOrOpenQuantityRouter);
 //Product
 app.use("/api/product/color", colorRouter);
 app.use("/api/product/detail", detailRouter);
