@@ -47,6 +47,10 @@ const orderLRouter = require("./routers/order/order_L.routes");
 //Follow
 const sizeFollowProductRouter = require("./routers/follow/size.follow.product.routes");
 const colorFollowProductRouter = require("./routers/follow/color.follow.product.routes");
+//Department
+const departmentRouter = require("./routers/department/department.routes");
+//Position
+const positionRouter = require("./routers/position/position.routes");
 
 app.use(bodyParser.urlencoded({ extends: false }));
 app.use(bodyParser.json());
@@ -68,7 +72,10 @@ app.use("/api/manufacture/quantity", quantityRouter);
 // app.use("/api/manufacture/synchronized", synchronizedRouter);
 app.use("/api/manufacture/update", updateRouter);
 app.use("/api/manufacture/update/quantity", updateQuantityRouter);
-app.use("/api/manufacture/update/blockOrOpenQuantity", blockOrOpenQuantityRouter);
+app.use(
+  "/api/manufacture/update/blockOrOpenQuantity",
+  blockOrOpenQuantityRouter
+);
 //Product
 app.use("/api/product/color", colorRouter);
 app.use("/api/product/detail", detailRouter);
@@ -96,6 +103,10 @@ app.use("/api/order/L", orderLRouter);
 //Follow
 app.use("/api/follow/product/size", sizeFollowProductRouter);
 app.use("/api/follow/product/color", colorFollowProductRouter);
+//Department
+app.use("/api/department", departmentRouter);
+//Position
+app.use("/api/position", positionRouter);
 
 app.listen(dotenv.PORT, () => {
   console.log("Port is listening.");

@@ -3,8 +3,6 @@ const router = express.Router();
 const mssql = require("mssql");
 const mssqlConfig = require("../../configs/database"); 
 
-router.get("/", async (req, res, next) => {});
-
 router.post("/", async (req, res, next) => {
     try {
         const { Action, PhanCong_Id, User_Id } = req.body;
@@ -24,9 +22,5 @@ router.post("/", async (req, res, next) => {
         res.status(500).json({ error: "Thao tác sản lượng thất bại." });
     }
 });
-
-router.put("/", async (req, res, next) => {});
-
-router.delete("/", async (req, res, next) => {});
 
 module.exports = router;
