@@ -18,13 +18,14 @@ router.post("/", async (req, res, next) => {
 
     const authenticationStatus = result.recordset[0].AuthenticationStatus;
     const role = result.recordset[0].Role;
+    const id = result.recordset[0].User_Id;
 
     if (authenticationStatus === "Success") {
       const token = jwt.sign(
-        { username, password, VaiTro: role },
+        { username, password, VaiTro: role, TaiKhoan_ID: id },
         dotenv.SECRET_KEY
       );
-      res.status(200).json({ token, role });
+      res.status(200).json({ token, role, id });
     } else {
       res.status(400).json("Tên người dùng hoặc mật khẩu không đúng.");
     }
