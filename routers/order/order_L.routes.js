@@ -36,7 +36,7 @@ router.post("/", async (req, res, next) => {
     request.input("NgayYCGH", mssql.VarChar(10), NgayYCGH);
     request.input("GhiChu", mssql.NVarChar(200), GhiChu);
 
-    await request.query("EXEC sp_ThemDonHang_L");
+    await request.execute("sp_ThemDonHang_L");
 
     res.status(200).json({ message: "Đã thêm đơn hàng L mới." });
   } catch (error) {
@@ -71,7 +71,7 @@ router.put("/", async (req, res, next) => {
     request.input("NgayYCGH", mssql.VarChar(10), NgayYCGH);
     request.input("GhiChu", mssql.NVarChar(200), GhiChu);
 
-    await request.query("EXEC sp_CapNhatDonHang_L");
+    await request.execute("sp_CapNhatDonHang_L");
 
     res.status(200).json({ message: "Đã cập nhật đơn hàng L." });
   } catch (error) {
