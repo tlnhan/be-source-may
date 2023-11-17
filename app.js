@@ -16,7 +16,7 @@ const roleRouter = require("./routers/role/roles.routes");
 //Manufacture
 const assignmentRouter = require("./routers/manufacture/assignment.routes");
 // const moveRouter = require("./routers/manufacture/move.routes");
-const salaryRouter = require("./routers/manufacture/salary.routes");
+const quantityManufactureRouter = require("./routers/manufacture/quantity.routes");
 // const synchronizedRouter = require("./routers/manufacture/synchronized.routes");
 const updateRouter = require("./routers/manufacture/update.routes");
 const updateQuantityRouter = require("./routers/manufacture/updatequantity.routes");
@@ -72,7 +72,7 @@ app.use("/api/role", roleRouter);
 //Manufacture
 app.use("/api/manufacture/assignment", assignmentRouter);
 // app.use("/api/manufacture/move", moveRouter);
-app.use("/api/manufacture/salary", salaryRouter);
+app.use("/api/manufacture/quantity", quantityManufactureRouter);
 // app.use("/api/manufacture/synchronized", synchronizedRouter);
 app.use("/api/manufacture/update", updateRouter);
 app.use("/api/manufacture/update/quantity", updateQuantityRouter);
