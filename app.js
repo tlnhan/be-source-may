@@ -8,6 +8,7 @@ const dotenv = require("dotenv").config().parsed;
 const authenticateRouter = require("./routers/authentication/authenication.routes");
 //Customer
 const customerRouter = require("./routers/customer/customer.routes");
+const salalryRouter = require("./routers/employee/salary.routes");
 //Employee
 const employeeRouter = require("./routers/employee/employee.routes");
 //Roler
@@ -65,6 +66,7 @@ app.use("/api/login", authenticateRouter);
 app.use("/api/customer", customerRouter);
 //Employee
 app.use("/api/employee", employeeRouter);
+app.use("/api/employee/salary", salalryRouter);
 //Role
 app.use("/api/role", roleRouter);
 //Manufacture
