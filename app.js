@@ -54,6 +54,9 @@ const departmentRouter = require("./routers/department/department.routes");
 const positionRouter = require("./routers/position/position.routes");
 //Quantity
 const quantityRouter = require("./routers/quantity/quantity.routes");
+//ThongKe
+const slChiTietRouter = require("./routers/thong_ke/sanluong_chitiet.routes");
+const thpcSXDHRouter = require("./routers/thong_ke/thpc_sxdh.routes");
 
 app.use(bodyParser.urlencoded({ extends: false }));
 app.use(bodyParser.json());
@@ -113,6 +116,9 @@ app.use("/api/department", departmentRouter);
 app.use("/api/position", positionRouter);
 //Quantity
 app.use("/api/quantity", quantityRouter);
+//ThongKe
+app.use("/api/thongke/sanluongChiTiet", slChiTietRouter);
+app.use("/api/thongke/thpcSXDH", thpcSXDHRouter);
 
 app.listen(dotenv.PORT, () => {
   console.log("Port is listening.");
