@@ -57,6 +57,10 @@ const quantityRouter = require("./routers/quantity/quantity.routes");
 //ThongKe
 const slChiTietRouter = require("./routers/thong_ke/sanluong_chitiet.routes");
 const thpcSXDHRouter = require("./routers/thong_ke/thpc_sxdh.routes");
+//BangLuongChiTiet
+const bangLuongCTRouter = require("./routers/bang_luong_ct/blct.routes");
+//KhoaLuong
+const khoaLuongRouter = require("./routers/khoa_luong/khoa_luong.routes.js");
 
 app.use(bodyParser.urlencoded({ extends: false }));
 app.use(bodyParser.json());
@@ -119,6 +123,10 @@ app.use("/api/quantity", quantityRouter);
 //ThongKe
 app.use("/api/thongke/sanluongChiTiet", slChiTietRouter);
 app.use("/api/thongke/thpcSXDH", thpcSXDHRouter);
+//BangLuongChiTiet
+app.use("/api/bangluong/chitiet", bangLuongCTRouter);
+//KhoaLuong
+app.use("/api/khoaluong", khoaLuongRouter);
 
 app.listen(dotenv.PORT, () => {
   console.log("Port is listening.");
