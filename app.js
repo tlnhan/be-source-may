@@ -61,6 +61,8 @@ const thpcSXDHRouter = require("./routers/thong_ke/thpc_sxdh.routes");
 const bangLuongCTRouter = require("./routers/bang_luong_ct/blct.routes");
 //KhoaLuong
 const khoaLuongRouter = require("./routers/khoa_luong/khoa_luong.routes.js");
+//KhoaMoSanLuong
+const khoaMoSanLuongRouter = require("./routers/khoa_mo_sl/khoa_mo_sl.routes.js");
 
 app.use(bodyParser.urlencoded({ extends: false }));
 app.use(bodyParser.json());
@@ -127,6 +129,8 @@ app.use("/api/thongke/thpcSXDH", thpcSXDHRouter);
 app.use("/api/bangluong/chitiet", bangLuongCTRouter);
 //KhoaLuong
 app.use("/api/khoaluong", khoaLuongRouter);
+//KhoaMoSanLuong
+app.use("/api/khoamosanluong", khoaMoSanLuongRouter);
 
 app.listen(dotenv.PORT, () => {
   console.log("Port is listening.");
