@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const dotenv = require("dotenv").config().parsed;
+
+require("dotenv").config().parsed;
 
 //Authentication
 const authenticateRouter = require("./routers/authentication/authenication.routes");
@@ -132,6 +133,6 @@ app.use("/api/khoaluong", khoaLuongRouter);
 //KhoaMoSanLuong
 app.use("/api/khoamosanluong", khoaMoSanLuongRouter);
 
-app.listen(dotenv.PORT, () => {
+app.listen(process.env.PORT, () => {
   console.log("Port is listening.");
 });
