@@ -22,7 +22,7 @@ router.post("/", async (req, res, next) => {
     if (authenticationStatus === "Success") {
       const token = jwt.sign(
         { username, password, VaiTro: role, TaiKhoan_ID: id },
-        dotenv.SECRET_KEY
+        process.env.SECRET_KEY
       );
       res.status(200).json({ token, role, id });
     } else {
