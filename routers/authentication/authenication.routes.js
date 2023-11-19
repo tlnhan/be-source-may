@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const mssql = require("mssql");
-const dotenv = require("dotenv").config().parsed;
 const mssqlConfig = require("../../configs/database");
 const jwt = require("jsonwebtoken");
 
