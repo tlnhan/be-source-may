@@ -2,7 +2,7 @@ const mssql = require('mssql');
 const dotenv = require('dotenv').config().parsed;
 
 const mssqlConfig = {
-    user: dotenv.MSSQL_USER,
+    user: "LDTL",
     password: dotenv.MSSQL_PWD,
     server: dotenv.MSSQL_SV,
     database: dotenv.MSSQL_DB,
