@@ -10,6 +10,8 @@ const mssqlConfig = {
     port: 4344
 };
 
+console.log(dotenv.MSSQL_USER)
+
 module.exports = mssqlConfig;
 
 mssql.connect(mssqlConfig, function (err) {
