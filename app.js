@@ -132,6 +132,6 @@ app.use("/api/khoaluong", khoaLuongRouter);
 //KhoaMoSanLuong
 app.use("/api/khoamosanluong", khoaMoSanLuongRouter);
 
-app.listen(dotenv.PORT, () => {
+app.listen(8080, () => {
   console.log("Port is listening.");
 });

@@ -1,16 +1,13 @@
 const mssql = require('mssql');
-const dotenv = require('dotenv').config().parsed;
 
 const mssqlConfig = {
-    user: dotenv.MSSQL_USER,
-    password: dotenv.MSSQL_PWD,
-    server: dotenv.MSSQL_SV,
-    database: dotenv.MSSQL_DB,
+    user: process.env.MSSQL_USER,
+    password: process.env.MSSQL_PWD,
+    server: process.env.MSSQL_SV,
+    database: process.env.MSSQL_DB,
     trustServerCertificate: true,
     port: 4344
 };
-
-console.log(dotenv.MSSQL_USER)
 
 module.exports = mssqlConfig;
 
