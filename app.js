@@ -64,6 +64,8 @@ const bangLuongCTRouter = require("./routers/bang_luong_ct/blct.routes");
 const khoaLuongRouter = require("./routers/khoa_luong/khoa_luong.routes.js");
 //KhoaMoSanLuong
 const khoaMoSanLuongRouter = require("./routers/khoa_mo_sl/khoa_mo_sl.routes.js");
+//ChiTietTheoSanPham
+const ChiTietTheoSanPhamRouter = require("./routers/follow/san_pham.follow.product.routes.js");
 
 app.use(bodyParser.urlencoded({ extends: false }));
 app.use(bodyParser.json());
@@ -117,6 +119,7 @@ app.use("/api/order/L", orderLRouter);
 //Follow
 app.use("/api/follow/product/size", sizeFollowProductRouter);
 app.use("/api/follow/product/color", colorFollowProductRouter);
+app.use("/api/follow/product/detail", ChiTietTheoSanPhamRouter);
 //Department
 app.use("/api/department", departmentRouter);
 //Position
