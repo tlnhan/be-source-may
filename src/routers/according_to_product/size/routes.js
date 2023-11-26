@@ -3,7 +3,7 @@ const sizeAccordingToProductController = require('../../../controllers/according
 
 const router = express.Router();
 
-router.get('/', sizeAccordingToProductController.getSizeAccordingToProduct);
+router.get('/getList', sizeAccordingToProductController.getSizeAccordingToProduct);
 router.post('/', sizeAccordingToProductController.postSizeAccordingToProduct);
 router.put('/', sizeAccordingToProductController.putSizeAccordingToProduct);
 router.delete('/', sizeAccordingToProductController.deleteSizeAccordingToProduct);
