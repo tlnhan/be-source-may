@@ -4,7 +4,7 @@ const mssqlConfig = require("../../../db/mssql");
 exports.getAggregateOutputs = async (req, res) => {
   try {
     const pool = await mssql.connect(mssqlConfig);
-    const result = await pool.request().execute("sp_DSTongHopSanLuong");
+    const result = await pool.request().execute("sp_LayDanhSachCapNhatSanLuong");
 
     res.status(200).json(result.recordset);
   } catch (error) {
