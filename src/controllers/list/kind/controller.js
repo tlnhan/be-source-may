@@ -3,12 +3,14 @@ const mssqlConfig = require("../../../db/mssql");
 
 exports.getListKinds = async (req, res) => {
   try {
-    const result = await mssql.query("SELECT * FROM DM_Loai");
+    const result = await mssql.query("EXEC sp_DSLoai");
 
     res.status(200).json(result.recordset);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Error when getting list of kind information." });
+    res
+      .status(500)
+      .json({ error: "Error when getting list of kind information." });
   }
 };
 
@@ -30,10 +32,14 @@ exports.postListKind = async (req, res) => {
                   `
     );
 
-    res.status(201).json({ message: "Added information of a successful list kind." });
+    res
+      .status(201)
+      .json({ message: "Added information of a successful list kind." });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Error when adding information of a list kind." });
+    res
+      .status(500)
+      .json({ error: "Error when adding information of a list kind." });
   }
 };
 
@@ -55,7 +61,9 @@ exports.putListKind = async (req, res) => {
       .json({ message: "Updated information of a successful list kind." });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Error when updating information of a list kind." });
+    res
+      .status(500)
+      .json({ error: "Error when updating information of a list kind." });
   }
 };
 
@@ -64,9 +72,13 @@ exports.deleteListKind = async (req, res) => {
     const { ChungLoai } = req.body;
     await mssql.query(`DELETE FROM DM_Loai WHERE ChungLoai = '${ChungLoai}'`);
 
-    res.status(200).json({ message: "Deleted information of a successful list kind." });
+    res
+      .status(200)
+      .json({ message: "Deleted information of a successful list kind." });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Error when deleting information of a list kind." });
+    res
+      .status(500)
+      .json({ error: "Error when deleting information of a list kind." });
   }
 };

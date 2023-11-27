@@ -37,35 +37,42 @@ router.use("/login", authenticationRoutes);
 router.use("/detailedQuantityTableRoutes", detailedQuantityTableRoutes);
 router.use("/customer", customerRoutes);
 router.use("/department", departmentRoutes);
+router.use("/position", positionRoutes);
 router.use("/employee", employeeRoutes);
 router.use("/employee/salary", salaryEmployeesRoutes);
 router.use("/accordingToProduct/color", colorAccordingToProductRoutes);
-router.use("/accordingToProduct/detail", detailAccordingToProductRoutes);
 router.use("/accordingToProduct/size", sizeAccordingToProductRoutes);
-router.use(
-  "/displayEmployeesByOutputStatus",
-  displayEmployeesByOutputStatusRoutes
-);
-router.use("/lockOrOpenOutput", lockOrOpenOutputRoutes);
 router.use("/productionAssignment", productionAssignmentRoutes);
-router.use("/productQuantityTable", productQuantityTableRoutes);
-router.use("/updateOutput", updateOutputRoutes);
-router.use("/aggregateOutput", aggregateOutputRoutes);
 router.use("/list/color", listColorRoutes);
 router.use("/list/detail", listDetailRoutes);
-router.use("/list/kind", listKindRoutes);
-router.use("/list/product", listProductRoutes);
-router.use("/list/kindProduct", listKindProductRoutes);
-router.use("/list/typeProduct", listTypeProductRoutes);
 router.use("/list/size", listSizeRoutes);
 router.use("/list/unit", listUnitRoutes);
+router.use("/list/product", listProductRoutes);
+router.use("/list/kindProduct", listKindProductRoutes);
 router.use("/product/color", productColorRoutes);
 router.use("/product/detail", productDetailRoutes);
 router.use("/product/size", productSizeRoutes);
 router.use("/order/H", orderHRoutes);
 router.use("/order/L", orderLRoutes);
-router.use("/position", positionRoutes);
 router.use("/statistic/detaledProduct", detailedProductStatisticRoutes);
 router.use("/statistic/oaaps", OAAPSStatisticRoutes);
+
+//chưa
+router.use(
+  "/displayEmployeesByOutputStatus",
+  displayEmployeesByOutputStatusRoutes
+);
+router.use("/lockOrOpenOutput", lockOrOpenOutputRoutes);
+router.use("/productQuantityTable", productQuantityTableRoutes);
+
+// là 1
+router.use("/list/typeProduct", listTypeProductRoutes);
+router.use("/list/kind", listKindRoutes);
+
+//lỗi
+router.use("/accordingToProduct/detail", detailAccordingToProductRoutes);
+router.use("/updateOutput", updateOutputRoutes);
+router.use("/aggregateOutput", aggregateOutputRoutes);
+
 
 module.exports = router;
