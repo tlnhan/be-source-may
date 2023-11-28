@@ -29,6 +29,7 @@ const orderLRoutes = require("./orders/L/routes");
 const positionRoutes = require("./positions/routes");
 const detailedProductStatisticRoutes = require("./statistic/detailed_product/routes");
 const OAAPSStatisticRoutes = require("./statistic/o.a.a.p.s/routes");
+const accountsRoutes = require("./accounts/routes");
 
 const router = express.Router();
 
@@ -65,5 +66,6 @@ router.use("/order/L", orderLRoutes);
 router.use("/position", positionRoutes);
 router.use("/statistic/detaledProduct", detailedProductStatisticRoutes);
 router.use("/statistic/oaaps", OAAPSStatisticRoutes);
+router.use("/account", accountsRoutes);
 
 module.exports = router;
