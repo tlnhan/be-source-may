@@ -16,7 +16,6 @@ const updateOutputRoutes = require("./out_put/update_output/routes");
 const aggregateOutputRoutes = require("./out_put/aggregate_output/routes");
 const listColorRoutes = require("./list/color/routes");
 const listDetailRoutes = require("./list/detail/routes");
-const listKindRoutes = require("./list/kind/routes");
 const listProductRoutes = require("./list/product/routes");
 const listKindProductRoutes = require("./list/product/kind/routes");
 const listTypeProductRoutes = require("./list/product/type/routes");
@@ -33,27 +32,36 @@ const OAAPSStatisticRoutes = require("./statistic/o.a.a.p.s/routes");
 
 const router = express.Router();
 
+//xong
 router.use("/login", authenticationRoutes);
 router.use("/detailedQuantityTableRoutes", detailedQuantityTableRoutes);
 router.use("/customer", customerRoutes);
-router.use("/department", departmentRoutes);
-router.use("/position", positionRoutes);
 router.use("/employee", employeeRoutes);
 router.use("/employee/salary", salaryEmployeesRoutes);
 router.use("/accordingToProduct/color", colorAccordingToProductRoutes);
 router.use("/accordingToProduct/size", sizeAccordingToProductRoutes);
+router.use("/accordingToProduct/detail", detailAccordingToProductRoutes);
 router.use("/productionAssignment", productionAssignmentRoutes);
+//bo phan nhan vien them xoa sua
+router.use("/department", departmentRoutes);
+router.use("/position", positionRoutes);
+
+//thêm xóa
 router.use("/list/color", listColorRoutes);
 router.use("/list/detail", listDetailRoutes);
+router.use("/list/kindProduct", listKindProductRoutes);
+router.use("/list/typeProduct", listTypeProductRoutes);
 router.use("/list/size", listSizeRoutes);
 router.use("/list/unit", listUnitRoutes);
 router.use("/list/product", listProductRoutes);
-router.use("/list/kindProduct", listKindProductRoutes);
 router.use("/product/color", productColorRoutes);
 router.use("/product/detail", productDetailRoutes);
 router.use("/product/size", productSizeRoutes);
+//xóa sửa
 router.use("/order/H", orderHRoutes);
 router.use("/order/L", orderLRoutes);
+
+//thống kê chưa làm
 router.use("/statistic/detaledProduct", detailedProductStatisticRoutes);
 router.use("/statistic/oaaps", OAAPSStatisticRoutes);
 
@@ -63,16 +71,12 @@ router.use(
   displayEmployeesByOutputStatusRoutes
 );
 router.use("/lockOrOpenOutput", lockOrOpenOutputRoutes);
-router.use("/productQuantityTable", productQuantityTableRoutes);
 
-// là 1
-router.use("/list/typeProduct", listTypeProductRoutes);
-router.use("/list/kind", listKindRoutes);
 
 //lỗi
-router.use("/accordingToProduct/detail", detailAccordingToProductRoutes);
 router.use("/updateOutput", updateOutputRoutes);
 router.use("/aggregateOutput", aggregateOutputRoutes);
-
+//thêm với sửa bị lỗi
+router.use("/productQuantityTable", productQuantityTableRoutes);
 
 module.exports = router;
