@@ -1,5 +1,5 @@
 const mssql = require("mssql");
-const mssqlConfig = require("../../../db/mssql");
+const mssqlConfig = require("../../db/mssql");
 
 exports.postAccount = async (req, res) => {
   try {
