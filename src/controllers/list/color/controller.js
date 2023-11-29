@@ -57,12 +57,12 @@ exports.putListColor = async (req, res) => {
 
 exports.deleteListColor = async (req, res) => {
   try {
-    const { MauSP_Id } = req.body;
+    const { MauSP_ID } = req.body;
 
     const pool = await mssql.connect(mssqlConfig);
 
     const request = new mssql.Request(pool);
-    request.input("MauSP_Id", mssql.Int, MauSP_Id);
+    request.input("MauSP_ID", mssql.Int, MauSP_ID);
 
     await request.execute("sp_XoaMau");
 
