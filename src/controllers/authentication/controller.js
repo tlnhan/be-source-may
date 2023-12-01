@@ -16,14 +16,17 @@ exports.postLogin = async (req, res) => {
     const role = result.recordset[0].Role;
     const id = result.recordset[0].User_Id;
 
-    if (authenticationStatus === "Success") {
+    if (
+      result.recordset.length > 0 &&
+      result.recordset[0].AuthenticationStatus === "Success"
+    ) {
       const token = jwt.sign(
         { username, password, VaiTro: role, TaiKhoan_ID: id },
         process.env.SECRET_KEY
       );
       res.status(200).json({ token, role, id });
     } else {
-      res.status(400).json("Username or password is incorrect.");
+      res.status(400).json({ message: "Username or password is incorrect." });
     }
   } catch (err) {
     console.error(err);
