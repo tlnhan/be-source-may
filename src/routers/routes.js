@@ -42,6 +42,7 @@ router.use("/accordingToProduct/color", colorAccordingToProductRoutes);
 router.use("/accordingToProduct/size", sizeAccordingToProductRoutes);
 router.use("/accordingToProduct/detail", detailAccordingToProductRoutes);
 router.use("/productionAssignment", productionAssignmentRoutes);
+router.use("/list/product", listProductRoutes);
 //bo phan nhan vien them xoa sua
 router.use("/department", departmentRoutes);
 router.use("/position", positionRoutes);
@@ -53,10 +54,11 @@ router.use("/list/kindProduct", listKindProductRoutes);
 router.use("/list/typeProduct", listTypeProductRoutes);
 router.use("/list/size", listSizeRoutes);
 router.use("/list/unit", listUnitRoutes);
-router.use("/list/product", listProductRoutes);
+
 router.use("/product/color", productColorRoutes);
 router.use("/product/detail", productDetailRoutes);
 router.use("/product/size", productSizeRoutes);
+
 //xóa sửa
 router.use("/order/H", orderHRoutes);
 router.use("/order/L", orderLRoutes);
@@ -71,12 +73,12 @@ router.use(
   displayEmployeesByOutputStatusRoutes
 );
 router.use("/lockOrOpenOutput", lockOrOpenOutputRoutes);
-
-
-//lỗi
-router.use("/updateOutput", updateOutputRoutes);
-router.use("/aggregateOutput", aggregateOutputRoutes);
-//thêm với sửa bị lỗi
+//còn sửa chưa
 router.use("/productQuantityTable", productQuantityTableRoutes);
+
+//lỗi 
+//cập nhật bị lỗi
+router.use("/updateOutput", updateOutputRoutes);
+
 
 module.exports = router;
