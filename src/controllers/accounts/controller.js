@@ -30,3 +30,46 @@ exports.postAccount = async (req, res) => {
       });
   }
 };
+
+exports.getAccount = async (req, res) => {
+  try {
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+
+    request.input("Action", mssql.VarChar(50), "GET");
+
+    const resut = await request.execute("sp_LayDanhSachTaiKhoan");
+
+    res.status(200).json(resut.recordset);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Error when getting information of a account.",
+    });
+  }
+};
+
+exports.detailAccount = async (req, res) => {
+  try {
+    const { MaNV } = req.body;
+
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+
+    request.input("MaNV", mssql.NVarChar(50), MaNV);
+    request.input("Action", mssql.NVarChar(50), "DETAIL");
+
+    await request.execute("sp_LayDanhSachTaiKhoan");
+
+    res.status(200).json({
+      message: "Got information of a successful detail account.",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Error when getting information of a detail account.",
+    });
+  }
+};
