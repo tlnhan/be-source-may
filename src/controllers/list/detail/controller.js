@@ -106,9 +106,9 @@ exports.putListDetail = async (req, res) => {
 
 exports.deleteListDetail = async (req, res) => {
   try {
-    const { MaChiTiet } = req.body;
+    const { ChiTiet_ID } = req.body;
     await mssql.query(
-      `DELETE FROM DM_ChiTiet WHERE MaChiTiet = '${MaChiTiet}'`
+      `DELETE FROM DM_ChiTiet WHERE ChiTiet_ID = '${ChiTiet_ID}'`
     );
 
     res

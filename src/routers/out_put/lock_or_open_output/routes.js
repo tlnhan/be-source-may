@@ -3,6 +3,7 @@ const lockOrOpenOutputController = require('../../../controllers/out_put/lock_or
 
 const router = express.Router();
 
-router.post('/', lockOrOpenOutputController.postLockOrOpenOutput);
+router.post('/lock', lockOrOpenOutputController.postLockOutput);
+router.post('/open', lockOrOpenOutputController.postOpenOutput);
 
 module.exports = router;

@@ -29,6 +29,7 @@ const orderLRoutes = require("./orders/L/routes");
 const positionRoutes = require("./positions/routes");
 const detailedProductStatisticRoutes = require("./statistic/detailed_product/routes");
 const OAAPSStatisticRoutes = require("./statistic/o.a.a.p.s/routes");
+const accountsRoutes = require("./accounts/routes");
 
 const router = express.Router();
 
@@ -43,6 +44,9 @@ router.use("/accordingToProduct/size", sizeAccordingToProductRoutes);
 router.use("/accordingToProduct/detail", detailAccordingToProductRoutes);
 router.use("/productionAssignment", productionAssignmentRoutes);
 router.use("/list/product", listProductRoutes);
+router.use("/statistic/detaledProduct", detailedProductStatisticRoutes);
+router.use("/statistic/oaaps", OAAPSStatisticRoutes);
+
 //bo phan nhan vien them xoa sua
 router.use("/department", departmentRoutes);
 router.use("/position", positionRoutes);
@@ -63,22 +67,21 @@ router.use("/product/size", productSizeRoutes);
 router.use("/order/H", orderHRoutes);
 router.use("/order/L", orderLRoutes);
 
-//thống kê chưa làm
-router.use("/statistic/detaledProduct", detailedProductStatisticRoutes);
-router.use("/statistic/oaaps", OAAPSStatisticRoutes);
-
 //chưa
 router.use(
   "/displayEmployeesByOutputStatus",
   displayEmployeesByOutputStatusRoutes
 );
 router.use("/lockOrOpenOutput", lockOrOpenOutputRoutes);
-//còn sửa chưa
+
+//còn sửa chưa ĐơnL
 router.use("/productQuantityTable", productQuantityTableRoutes);
 
 //lỗi 
 //cập nhật bị lỗi
 router.use("/updateOutput", updateOutputRoutes);
+router.use("/aggregateOutput", aggregateOutputRoutes);
 
+router.use("/account", accountsRoutes);
 
 module.exports = router;

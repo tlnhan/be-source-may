@@ -57,12 +57,12 @@ exports.putListSizeProduct = async (req, res) => {
 
 exports.deleteListSizeProduct = async (req, res) => {
   try {
-    const { SizeSP_Id } = req.body;
+    const { Size_ID } = req.body;
 
     const pool = await mssql.connect(mssqlConfig);
 
     const request = new mssql.Request(pool);
-    request.input("SizeSP_Id", mssql.Int, SizeSP_Id);
+    request.input("Size_ID", mssql.Int, Size_ID);
 
     await request.execute("sp_XoaSize");
 
