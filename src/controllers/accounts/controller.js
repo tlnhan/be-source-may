@@ -14,18 +14,27 @@ exports.postAccount = async (req, res) => {
     request.input("Pass", mssql.NVarChar(100), Pass);
     request.input("VaiTro", mssql.VarChar(50), VaiTro);
 
-    await request.execute("sp_ThemTaiKhoan");
+    request.output("ResultCode", mssql.Int);
 
-    res.status(200).json({
-      message: "Added information of a successful account.",
-    });
+    const result = await request.execute("sp_ThemTaiKhoan");
+
+    if (result.output.ResultCode === 0) {
+      return res.status(200).json({
+        message: "Added information of a successful account.",
+      });
+    } else {
+      return res.status(404).json({
+        message: "MaNV or Username is already taken, please choose different ones.",
+      });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      error: "Error when adding information of a account.",
+      error: "Error when adding information of an account.",
     });
   }
 };
+
 
 exports.getAccount = async (req, res) => {
   try {
