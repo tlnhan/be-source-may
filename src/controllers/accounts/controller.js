@@ -16,28 +16,27 @@ exports.postAccount = async (req, res) => {
 
     await request.execute("sp_ThemTaiKhoan");
 
-    res
-      .status(200)
-      .json({
-        message: "Added information of a successful account.",
-      });
+    res.status(200).json({
+      message: "Added information of a successful account.",
+    });
   } catch (error) {
     console.log(error);
-    res
-      .status(500)
-      .json({
-        error: "Error when adding information of a account.",
-      });
+    res.status(500).json({
+      error: "Error when adding information of a account.",
+    });
   }
 };
 
 exports.getAccount = async (req, res) => {
   try {
+    const { MaNV } = req.body;
+
     const pool = await mssql.connect(mssqlConfig);
 
     const request = new mssql.Request(pool);
 
     request.input("Action", mssql.VarChar(50), "GET");
+    request.input("MaNV", mssql.NVarChar(200), MaNV);
 
     const resut = await request.execute("sp_LayDanhSachTaiKhoan");
 
@@ -61,11 +60,9 @@ exports.detailAccount = async (req, res) => {
     request.input("MaNV", mssql.NVarChar(50), MaNV);
     request.input("Action", mssql.NVarChar(50), "DETAIL");
 
-    await request.execute("sp_LayDanhSachTaiKhoan");
+    const result = await request.execute("sp_LayDanhSachTaiKhoan");
 
-    res.status(200).json({
-      message: "Got information of a successful detail account.",
-    });
+    res.status(200).json(result.recordset);
   } catch (error) {
     console.log(error);
     res.status(500).json({

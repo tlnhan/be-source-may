@@ -12,7 +12,7 @@ exports.postLogin = async (req, res) => {
       .input("password", mssql.NVarChar, password)
       .execute("sp_AuthenticateUser");
 
-    const authenticationStatus = result.recordset[0].AuthenticationStatus;
+    result.recordset[0].AuthenticationStatus;
     const role = result.recordset[0].Role;
     const id = result.recordset[0].User_Id;
 
