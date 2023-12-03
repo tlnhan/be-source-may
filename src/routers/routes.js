@@ -67,20 +67,20 @@ router.use("/product/size", productSizeRoutes);
 router.use("/order/H", orderHRoutes);
 router.use("/order/L", orderLRoutes);
 
-//chưa
+//chưa show cho admin biết
 router.use(
   "/displayEmployeesByOutputStatus",
   displayEmployeesByOutputStatusRoutes
 );
+// chưa làm xong api cập nhật sản lượng
 router.use("/lockOrOpenOutput", lockOrOpenOutputRoutes);
 
 //còn sửa chưa ĐơnL
 router.use("/productQuantityTable", productQuantityTableRoutes);
 
 //lỗi 
-//cập nhật bị lỗi
+//cập nhật bị lỗi 
 router.use("/updateOutput", updateOutputRoutes);
-router.use("/aggregateOutput", aggregateOutputRoutes);
 
 router.use("/account", accountsRoutes);
 
