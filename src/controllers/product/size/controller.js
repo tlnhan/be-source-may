@@ -16,12 +16,13 @@ exports.getProductSizes = async (req, res) => {
 
 exports.postProductSize = async (req, res) => {
   try {
-    const { Size_Id, GhiChu, NgayTao, NguoiTao, NgayCapNhat, NguoiCapNhat } =
+    const { SanPham_Id, Size_Id, GhiChu, NgayTao, NguoiTao, NgayCapNhat, NguoiCapNhat } =
       req.body;
 
     const result = await mssql.query(
       `
                       INSERT INTO SanPham_Size (
+                          [SanPham_Id],
                           [Size_Id],
                           [GhiChu],
                           [NgayTao],
@@ -29,6 +30,7 @@ exports.postProductSize = async (req, res) => {
                           [NgayCapNhat],
                           [NguoiCapNhat]
                       ) VALUES (
+                        '${SanPham_Id}',
                         '${Size_Id}',
                         '${GhiChu}',
                         '${NgayTao}',
