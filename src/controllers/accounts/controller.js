@@ -24,7 +24,8 @@ exports.postAccount = async (req, res) => {
       });
     } else {
       return res.status(404).json({
-        message: "MaNV or Username is already taken, please choose different ones.",
+        message:
+          "MaNV or Username is already taken, please choose different ones.",
       });
     }
   } catch (error) {
@@ -34,7 +35,6 @@ exports.postAccount = async (req, res) => {
     });
   }
 };
-
 
 exports.getAccount = async (req, res) => {
   try {
@@ -76,6 +76,28 @@ exports.detailAccount = async (req, res) => {
     console.log(error);
     res.status(500).json({
       error: "Error when getting information of a detail account.",
+    });
+  }
+};
+
+exports.changePass = async (req, res) => {
+  try {
+    const { MaNV, Pass } = req.body;
+
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+
+    request.input("MaNV", mssql.NVarChar(20), MaNV);
+    request.input("NewPass", mssql.NVarChar(100), Pass);
+
+    const result = await request.execute("sp_CapLaiMatKhau");
+
+    res.status(200).json({ message: "Changed password successfully." });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: "Error when updating password.",
     });
   }
 };

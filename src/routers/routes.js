@@ -46,7 +46,8 @@ router.use("/productionAssignment", productionAssignmentRoutes);
 router.use("/list/product", listProductRoutes);
 router.use("/statistic/detaledProduct", detailedProductStatisticRoutes);
 router.use("/statistic/oaaps", OAAPSStatisticRoutes);
-
+router.use("/productQuantityTable", productQuantityTableRoutes);
+router.use("/account", accountsRoutes);
 //bo phan nhan vien them xoa sua
 router.use("/department", departmentRoutes);
 router.use("/position", positionRoutes);
@@ -75,13 +76,11 @@ router.use(
 // chưa làm xong api cập nhật sản lượng
 router.use("/lockOrOpenOutput", lockOrOpenOutputRoutes);
 
-//còn sửa chưa ĐơnL
-router.use("/productQuantityTable", productQuantityTableRoutes);
 
 //lỗi 
 //cập nhật bị lỗi 
 router.use("/updateOutput", updateOutputRoutes);
 
-router.use("/account", accountsRoutes);
+
 
 module.exports = router;

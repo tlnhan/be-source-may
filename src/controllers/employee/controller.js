@@ -62,7 +62,7 @@ exports.putEmployee = async (req, res) => {
     const request = new mssql.Request(pool);
 
     request.input("id", mssql.Int, id);
-    request.input("MaNV", mssql.NVarChar, MaNV);
+    request.input("MaNV", mssql.NVarChar(50), MaNV);
     request.input("BoPhanID", mssql.Int, BoPhanID);
     request.input("ChucVuID", mssql.Int, ChucVuID);
     request.input("HoTen", mssql.NVarChar, HoTen);
