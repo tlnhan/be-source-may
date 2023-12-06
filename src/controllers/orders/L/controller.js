@@ -99,7 +99,7 @@ exports.deleteOrderL = async (req, res) => {
     const request = new mssql.Request(pool);
     request.input("DonHang_L", mssql.Int, DonHang_L);
 
-    await request.execute("sp_XoaDonHangL ");
+    await request.execute("sp_XoaDonHang_L ");
 
     res
       .status(200)
