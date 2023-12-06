@@ -3,13 +3,15 @@ const mssqlConfig = require("../../../db/mssql");
 
 exports.getProductionAssignmentsDetail = async (req, res) => {
   try {
-    const { PhanCong_ID } = req.body;
+    const { Action, PhanCong_ID, NhanVien_Id } = req.body;
 
     const pool = await mssql.connect(mssqlConfig);
 
     const request = new mssql.Request(pool);
 
+    request.input("Action", mssql.VarChar(50), Action);
     request.input("PhanCong_ID", mssql.Int, PhanCong_ID);
+    request.input("NhanVien_Id", mssql.Int, NhanVien_Id);
 
     const result = await request.execute("sp_LayPhanCongSanXuatChiTiet");
 
