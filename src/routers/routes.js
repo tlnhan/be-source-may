@@ -30,6 +30,7 @@ const positionRoutes = require("./positions/routes");
 const detailedProductStatisticRoutes = require("./statistic/detailed_product/routes");
 const OAAPSStatisticRoutes = require("./statistic/o.a.a.p.s/routes");
 const accountsRoutes = require("./accounts/routes");
+const productionAssignmentDetailRouter = require("./production_assignment/detail/routes");
 
 const router = express.Router();
 
@@ -80,7 +81,7 @@ router.use("/lockOrOpenOutput", lockOrOpenOutputRoutes);
 //lỗi 
 //cập nhật bị lỗi 
 router.use("/updateOutput", updateOutputRoutes);
-
+router.use("/productionAssignment/detail", productionAssignmentDetailRouter);
 
 
 module.exports = router;
