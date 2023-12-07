@@ -91,7 +91,7 @@ exports.changePass = async (req, res) => {
     request.input("TaiKhoanID", mssql.Int, TaiKhoanID);
     request.input("MaNV", mssql.NVarChar(20), MaNV);
     request.input("Username", mssql.NVarChar(20), Username);
-    request.input("NewPass", mssql.NVarChar(100), Pass);
+    request.input("Pass", mssql.NVarChar(100), Pass);
 
     const result = await request.execute("sp_CapLaiMatKhau");
 
