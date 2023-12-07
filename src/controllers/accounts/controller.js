@@ -82,7 +82,7 @@ exports.detailAccount = async (req, res) => {
 
 exports.changePass = async (req, res) => {
   try {
-    const { TaiKhoanID, MaNV, Pass } = req.body;
+    const { TaiKhoanID, MaNV, Pass, Username } = req.body;
 
     const pool = await mssql.connect(mssqlConfig);
 
@@ -90,6 +90,7 @@ exports.changePass = async (req, res) => {
 
     request.input("TaiKhoanID", mssql.Int, TaiKhoanID);
     request.input("MaNV", mssql.NVarChar(20), MaNV);
+    request.input("Username", mssql.NVarChar(20), Username);
     request.input("NewPass", mssql.NVarChar(100), Pass);
 
     const result = await request.execute("sp_CapLaiMatKhau");
