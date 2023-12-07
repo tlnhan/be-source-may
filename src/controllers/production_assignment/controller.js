@@ -14,6 +14,27 @@ exports.getProductionAssignments = async (req, res) => {
   }
 };
 
+exports.getDetailProductionAssignments = async (req, res) => {
+  try {
+    const {PhanCong_Id } = req.body;
+
+    const pool = await mssql.connect(mssqlConfig);
+
+    const request = new mssql.Request(pool);
+
+    const result = await request
+      .input("PhanCong_Id", mssql.Int, PhanCong_Id)
+      .execute("sp_ChiTietPhanCongSanXuat");
+
+    res.status(200).json(result.recordset);
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ error: "Error when getting detail production assignment list." });
+  }
+};
+
 exports.postProductionAssignment = async (req, res) => {
   try {
     const {
