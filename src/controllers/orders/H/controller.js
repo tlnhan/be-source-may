@@ -69,7 +69,7 @@ exports.postOrderH = async (req, res) => {
       .json({ error: "Error when adding information of a order H." });
   }
 };
- .
+
 exports.putOrderH = async (req, res) => {
   try {
     const {
