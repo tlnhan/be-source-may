@@ -69,7 +69,7 @@ exports.postOrderH = async (req, res) => {
       .json({ error: "Error when adding information of a order H." });
   }
 };
-
+ .
 exports.putOrderH = async (req, res) => {
   try {
     const {
@@ -77,7 +77,6 @@ exports.putOrderH = async (req, res) => {
       SoDH,
       KhachHang_ID,
       NguoiLap_ID,
-      NgayLap,
       NgayYCGH,
       PhuongThucGH,
       GhiChu,
@@ -87,7 +86,7 @@ exports.putOrderH = async (req, res) => {
       NgayBDGH,
       NgayKTGH,
       DienGiaiTN,
-      NguoiTao,
+      NguoiCapNhat,
     } = req.body;
 
     const pool = await mssql.connect(mssqlConfig);
@@ -97,7 +96,6 @@ exports.putOrderH = async (req, res) => {
     request.input("SoDH", mssql.VarChar, SoDH);
     request.input("KhachHang_ID", mssql.Int, KhachHang_ID);
     request.input("NguoiLap_ID", mssql.Int, NguoiLap_ID);
-    request.input("NgayLap", mssql.SmallDateTime, NgayLap);
     request.input("NgayYCGH", mssql.SmallDateTime, NgayYCGH);
     request.input("PhuongThucGH", mssql.NVarChar, PhuongThucGH);
     request.input("GhiChu", mssql.NVarChar, GhiChu);
@@ -107,7 +105,7 @@ exports.putOrderH = async (req, res) => {
     request.input("NgayBDGH", mssql.VarChar, NgayBDGH);
     request.input("NgayKTGH", mssql.VarChar, NgayKTGH);
     request.input("DienGiaiTN", mssql.NVarChar, DienGiaiTN);
-    request.input("NguoiTao", mssql.Int, NguoiTao);
+    request.input("NguoiCapNhat", mssql.Int, NguoiCapNhat);
 
     await request.execute("sp_CapNhatDonHangH");
 
