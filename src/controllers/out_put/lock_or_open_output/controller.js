@@ -9,7 +9,7 @@ exports.postLockOutput = async (req, res) => {
     const request = new mssql.Request(pool);
 
     request.input("Action", mssql.NVarChar(50), "lock");
-    request.input("UserID", mssql.NVarChar(50), UserID);
+    request.input("UserID", mssql.Int, UserID);
     request.input("NgaySanLuong", mssql.Date, NgaySanLuong);
 
     await request.execute("sp_KhoaMoSanLuongNgay");
@@ -31,7 +31,7 @@ exports.postOpenOutput = async (req, res) => {
     const request = new mssql.Request(pool);
 
     request.input("Action", mssql.NVarChar(50), "unlock");
-    request.input("UserID", mssql.NVarChar(50), UserID);
+    request.input("UserID", mssql.Int, UserID);
     request.input("NgaySanLuong", mssql.Date, NgaySanLuong);
 
     await request.execute("sp_KhoaMoSanLuongNgay");
@@ -53,7 +53,7 @@ exports.postLockPersonOutput = async (req, res) => {
     const request = new mssql.Request(pool);
 
     request.input("Action", mssql.NVarChar(50), "lock");
-    request.input("UserID", mssql.NVarChar(50), UserID);
+    request.input("UserID", mssql.Int, UserID);
     request.input("NhanVien_ID", mssql.Int, NhanVien_ID);
 
     await request.execute("sp_KhoaMoSanLuongNhanVien");
@@ -76,7 +76,7 @@ exports.postOpenPersonOutput = async (req, res) => {
 
     request.input("Action", mssql.NVarChar(50), "unlock");
     request.input("NhanVien_ID", mssql.Int, NhanVien_ID);
-    request.input("UserID", mssql.NVarChar(50), UserID);
+    request.input("UserID", mssql.Int, UserID);
 
     await request.execute("sp_KhoaMoSanLuongNhanVien");
 
