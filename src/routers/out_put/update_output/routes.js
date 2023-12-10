@@ -4,7 +4,7 @@ const updateOutputController = require('../../../controllers/out_put/update_outp
 const router = express.Router();
 
 router.get('/', updateOutputController.getUpdateOutputs);
-router.get('/employee', updateOutputController.getUpdateOutputEmployee);
+router.post('/employee', updateOutputController.getUpdateOutputEmployee);
 router.post('/', updateOutputController.postUpdateOutput);
 router.put('/', updateOutputController.putUpdateOutput);
 router.delete('/', updateOutputController.deleteUpdateOutput);
