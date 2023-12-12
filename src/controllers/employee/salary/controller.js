@@ -30,7 +30,7 @@ exports.insertDataToSalaryEmployees = async (req, res) => {
     const request = new mssql.Request(pool);
 
     request.input("Thang", mssql.TinyInt, Thang);
-    request.input("Nam", mssql.TinyInt, Nam);
+    request.input("Nam", mssql.SmallInt, Nam);
     request.input("SanLuongTuNgay", mssql.Date, SanLuongTuNgay);
     request.input("SanLuongDenNgay", mssql.Date, SanLuongDenNgay);
     request.input("User_Id", mssql.Int, User_Id);
