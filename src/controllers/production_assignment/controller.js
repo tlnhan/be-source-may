@@ -16,15 +16,15 @@ exports.getProductionAssignments = async (req, res) => {
 
 exports.getDetailProductionAssignments = async (req, res) => {
   try {
-    const {PhanCong_Id } = req.body;
+    const { NhanVien_ID } = req.body;
 
     const pool = await mssql.connect(mssqlConfig);
 
     const request = new mssql.Request(pool);
 
     const result = await request
-      .input("PhanCong_Id", mssql.Int, PhanCong_Id)
-      .execute("sp_ChiTietPhanCongSanXuat");
+      .input("NhanVien_ID", mssql.Int, NhanVien_ID)
+      .execute("sp_Load_BangTongHop_TinhHinhCapNhatSanLuong");
 
     res.status(200).json(result.recordset);
   } catch (error) {
