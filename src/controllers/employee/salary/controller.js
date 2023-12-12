@@ -3,10 +3,14 @@ const mssqlConfig = require("../../../db/mssql");
 
 exports.getSalaryEmployees = async (req, res) => {
   try {
+    const { Thang, Nam } = req.body;
     const pool = await mssql.connect(mssqlConfig);
     const request = new mssql.Request(pool);
 
-    const result = await request.execute("sp_TinhLuongNhanVien");
+    const result = await request
+      .input("Thang", mssql.TinyInt, Thang)
+      .input("Nam", mssql.SmallInt, Nam)
+      .execute("sp_Load_BangLuongSanPham");
 
     res.status(200).json(result.recordset);
   } catch (error) {

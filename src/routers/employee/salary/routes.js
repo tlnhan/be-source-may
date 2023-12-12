@@ -3,7 +3,7 @@ const salaryEmployeesController = require('../../../controllers/employee/salary/
 
 const router = express.Router();
 
-router.get('/', salaryEmployeesController.getSalaryEmployees);
-router.post('/', salaryEmployeesController.insertDataToSalaryEmployees);
+router.post('/list', salaryEmployeesController.getSalaryEmployees);
+router.post('/data', salaryEmployeesController.insertDataToSalaryEmployees);
 
 module.exports = router;
