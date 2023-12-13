@@ -21,6 +21,7 @@ const listKindProductRoutes = require("./list/product/kind/routes");
 const listTypeProductRoutes = require("./list/product/type/routes");
 const listSizeRoutes = require("./list/size/routes");
 const listUnitRoutes = require("./list/unit/routes");
+const listMonthYearRoutes = require("./list/month_year/routes");
 const productColorRoutes = require("./procduct/color/routes");
 const productDetailRoutes = require("./procduct/detail/routes");
 const productSizeRoutes = require("./procduct/size/routes");
@@ -60,6 +61,7 @@ router.use("/list/kindProduct", listKindProductRoutes);
 router.use("/list/typeProduct", listTypeProductRoutes);
 router.use("/list/size", listSizeRoutes);
 router.use("/list/unit", listUnitRoutes);
+router.use("/list/monthyear", listMonthYearRoutes);
 
 router.use("/product/color", productColorRoutes);
 router.use("/product/detail", productDetailRoutes);
