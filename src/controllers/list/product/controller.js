@@ -3,9 +3,16 @@ const mssqlConfig = require("../../../db/mssql");
 
 exports.getListProducts = async (req, res) => {
   try {
-    const result = await mssql.query("EXEC sp_DanhSachSanPham");
-
-    res.status(200).json(result.recordset);
+    // const result = await mssql.query("EXEC sp_DanhSachSanPham");
+    const result = await mssql.query("EXEC sp_Load_DanhSachSanPham_ChiTietSP");
+    const products = result.recordset.map((ListPro) => {
+      const detailProduct = JSON.parse(ListPro.ChiTietSanPham);
+      return {
+        ...ListPro,
+        ChiTietSanPham: detailProduct,
+      };
+    });
+    res.status(200).json(products);
   } catch (error) {
     console.log(error);
     res
