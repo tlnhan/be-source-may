@@ -1,6 +1,17 @@
 const mssql = require("mssql");
 const mssqlConfig = require("../../../db/mssql");
 
+exports.getAllSalaryEmployees = async (req, res) => {
+  try {
+    const result = await mssql.query("EXEC sp_GetAll_BangLuongSanPham");
+
+    res.status(200).json(result.recordset);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error when getting list." });
+  }
+};
+
 exports.getSalaryEmployees = async (req, res) => {
   try {
     const { Thang, Nam } = req.body;
