@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', productionAssignmentController.getProductionAssignments);
 router.post('/', productionAssignmentController.postProductionAssignment);
-router.post('/detail', productionAssignmentController.getDetailProductionAssignments);
+//router.post('/detail', productionAssignmentController.getDetailProductionAssignments);
 router.put('/', productionAssignmentController.putProductionAssignment);
 router.delete('/', productionAssignmentController.deleteProductionAssignment);
 

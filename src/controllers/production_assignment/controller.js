@@ -14,26 +14,26 @@ exports.getProductionAssignments = async (req, res) => {
   }
 };
 
-exports.getDetailProductionAssignments = async (req, res) => {
-  try {
-    const { NhanVien_ID } = req.body;
+// exports.getDetailProductionAssignments = async (req, res) => {
+//   try {
+//     const { NhanVien_ID } = req.body;
 
-    const pool = await mssql.connect(mssqlConfig);
+//     const pool = await mssql.connect(mssqlConfig);
 
-    const request = new mssql.Request(pool);
+//     const request = new mssql.Request(pool);
 
-    const result = await request
-      .input("NhanVien_ID", mssql.Int, NhanVien_ID)
-      .execute("sp_Load_BangTongHop_TinhHinhCapNhatSanLuong");
+//     const result = await request
+//       .input("NhanVien_ID", mssql.Int, NhanVien_ID)
+//       .execute("sp_Load_BangTongHop_TinhHinhCapNhatSanLuong");
 
-    res.status(200).json(result.recordset);
-  } catch (error) {
-    console.log(error);
-    res
-      .status(500)
-      .json({ error: "Error when getting detail production assignment list." });
-  }
-};
+//     res.status(200).json(result.recordset);
+//   } catch (error) {
+//     console.log(error);
+//     res
+//       .status(500)
+//       .json({ error: "Error when getting detail production assignment list." });
+//   }
+// };
 
 exports.postProductionAssignment = async (req, res) => {
   try {
