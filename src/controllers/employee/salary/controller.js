@@ -23,6 +23,31 @@ exports.getSalaryEmployees = async (req, res) => {
   }
 };
 
+exports.getListBeforeCalculatingSalary = async (req, res) => {
+  try {
+    const { Thang, Nam, SanLuongTuNgay, SanLuongDenNgay } = req.body;
+    const pool = await mssql.connect(mssqlConfig);
+    const request = new mssql.Request(pool);
+
+    request.input("Thang", mssql.TinyInt, Thang);
+    request.input("Nam", mssql.SmallInt, Nam);
+    request.input("SanLuongTuNgay", mssql.Date, SanLuongTuNgay);
+    request.input("SanLuongDenNgay", mssql.Date, SanLuongDenNgay);
+
+    await request.execute("sp_Get_BangLuongSanPham");
+    res.status(200).json({
+      message: "Success",
+    });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({
+        error: "Error. Try again",
+      });
+  }
+};
+
 exports.insertDataToSalaryEmployees = async (req, res) => {
   try {
     const { Thang, Nam, SanLuongTuNgay, SanLuongDenNgay, User_Id } = req.body;
